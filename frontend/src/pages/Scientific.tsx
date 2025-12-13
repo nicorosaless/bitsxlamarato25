@@ -234,6 +234,48 @@ const ScientificAnalysis = () => {
                                     </Card>
                                 ))}
 
+                                {/* Methodology Detail Card */}
+                                <Card className="p-5 bg-card border-border">
+                                    <h3 className="font-semibold mb-4 flex items-center gap-2">
+                                        <Activity className="w-5 h-5 text-primary" />
+                                        Metodología Detallada: Del Dato al Modelo
+                                    </h3>
+
+                                    <div className="space-y-6 text-sm text-muted-foreground">
+                                        <div>
+                                            <h4 className="font-medium text-foreground mb-1">1. Ingeniería de Datos & Preprocesamiento</h4>
+                                            <ul className="list-disc pl-4 space-y-1">
+                                                <li><strong>Dataset:</strong> 154 pacientes con cáncer de endometrio NSMP del Hospital Sant Pau.</li>
+                                                <li><strong>Limpieza:</strong> Estandarización de variables categóricas. Imputación de valores faltantes (NaN) mediante mediana (numéricas) o moda (categóricas) para maximizar el uso de datos.</li>
+                                                <li><strong>Feature Engineering:</strong> Creación de variable `mmr_deficient` combinando MSH2, MSH6, PMS2, MLH1. Normalización Z-score para variables continuas.</li>
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <h4 className="font-medium text-foreground mb-1">2. Selección de Variables & Bias Verification</h4>
+                                            <p className="mb-2">
+                                                Se exploraron variables de tratamiento (Radioterapia, Braquiterapia, Quimioterapia) pero fueron <strong>excluidas del modelo final</strong> tras detectar un sesgo de indicación (<em>Confounding by Indication</em>):
+                                            </p>
+                                            <div className="bg-muted/50 p-3 rounded-md text-xs font-mono mb-2">
+                                                Análisis: Pacientes que recibieron QT tuvieron una tasa de recidiva del 51% vs 11% en no tratadas.
+                                                Esto NO implica que la QT cause recidiva, sino que se prescribe preferentemente a pacientes de alto riesgo.
+                                                Incluirla introduciría un sesgo negativo en las predicciones.
+                                            </div>
+                                            <p>
+                                                El modelo se centra exclusivamente en <strong>factores intrínsecos</strong> (biología del tumor y estado clínico) para ofrecer un pronóstico basal puro.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h4 className="font-medium text-foreground mb-1">3. Selección del Modelo</h4>
+                                            <ul className="list-disc pl-4 space-y-1">
+                                                <li>Se evaluaron algoritmos: Random Forest, Gradient Boosting y Regresión Logística.</li>
+                                                <li><strong>Ganador:</strong> Regresión Logística con regularización L2 (Ridge).</li>
+                                                <li><strong>Motivo:</strong> Mayor robustez ante overfitting en datasets pequeños (n=154), mejor interpretabilidad clínica (coeficientes lineales) y excelente calibración (Brier Score = 0.12).</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </Card>
                                 {/* Methodology Card */}
                                 <Card className="p-5 bg-accent/30 border-primary/20">
                                     <h3 className="font-semibold mb-3 flex items-center gap-2">
