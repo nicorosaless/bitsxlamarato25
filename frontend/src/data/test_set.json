@@ -1,0 +1,743 @@
+[
+  {
+    "id": 139,
+    "actualRecurrence": true,
+    "followUpMonths": 2.1,
+    "data": {
+      "edad": 61,
+      "imc": 24.4,
+      "gradoHistologico": "grado2",
+      "tamanoTumoral": 19.0,
+      "infiltracionMiometrial": "serosa",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 57,
+    "actualRecurrence": false,
+    "followUpMonths": 58.1,
+    "data": {
+      "edad": 60,
+      "imc": 25.4,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 1.5,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 58,
+    "actualRecurrence": false,
+    "followUpMonths": 0.5,
+    "data": {
+      "edad": 89,
+      "imc": 25.0,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 136,
+    "actualRecurrence": false,
+    "followUpMonths": 25.3,
+    "data": {
+      "edad": 33,
+      "imc": 28,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 90,
+      "receptoresProgesterona": 90
+    }
+  },
+  {
+    "id": 40,
+    "actualRecurrence": true,
+    "followUpMonths": 11.7,
+    "data": {
+      "edad": 51,
+      "imc": 22.5,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 1.9,
+      "infiltracionMiometrial": "mayor50",
+      "lvsi": "si",
+      "infiltracionCervical": "glandular",
+      "estadioFIGO": "II",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 60,
+      "receptoresProgesterona": 40
+    }
+  },
+  {
+    "id": 143,
+    "actualRecurrence": false,
+    "followUpMonths": 15.3,
+    "data": {
+      "edad": 58,
+      "imc": 28.0,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 151,
+    "actualRecurrence": false,
+    "followUpMonths": 13.8,
+    "data": {
+      "edad": 59,
+      "imc": 23.4,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 1.3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IB",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 60
+    }
+  },
+  {
+    "id": 33,
+    "actualRecurrence": false,
+    "followUpMonths": 34.0,
+    "data": {
+      "edad": 39,
+      "imc": 25.1,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 1.5,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 90,
+      "receptoresProgesterona": 90
+    }
+  },
+  {
+    "id": 162,
+    "actualRecurrence": false,
+    "followUpMonths": 14.9,
+    "data": {
+      "edad": 47,
+      "imc": 24.2,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3.5,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 100,
+      "receptoresProgesterona": 100
+    }
+  },
+  {
+    "id": 111,
+    "actualRecurrence": false,
+    "followUpMonths": 56.6,
+    "data": {
+      "edad": 63,
+      "imc": 44.9,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3.5,
+      "infiltracionMiometrial": "mayor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "II",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 60,
+      "receptoresProgesterona": 90
+    }
+  },
+  {
+    "id": 24,
+    "actualRecurrence": false,
+    "followUpMonths": 56.1,
+    "data": {
+      "edad": 58,
+      "imc": 34.4,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3.0,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 100,
+      "receptoresProgesterona": 80
+    }
+  },
+  {
+    "id": 2,
+    "actualRecurrence": false,
+    "followUpMonths": 58.1,
+    "data": {
+      "edad": 72,
+      "imc": 38.8,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.0,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "si",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 67,
+    "actualRecurrence": false,
+    "followUpMonths": 57.9,
+    "data": {
+      "edad": 75,
+      "imc": 23.3,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 5.0,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "glandular",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 100,
+      "receptoresProgesterona": 100
+    }
+  },
+  {
+    "id": 36,
+    "actualRecurrence": false,
+    "followUpMonths": 12.0,
+    "data": {
+      "edad": 55,
+      "imc": 39.1,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.2,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IB",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 40,
+      "receptoresProgesterona": 80
+    }
+  },
+  {
+    "id": 137,
+    "actualRecurrence": false,
+    "followUpMonths": 67.0,
+    "data": {
+      "edad": 55,
+      "imc": 42.1,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.0,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 40
+    }
+  },
+  {
+    "id": 132,
+    "actualRecurrence": false,
+    "followUpMonths": 27.4,
+    "data": {
+      "edad": 45,
+      "imc": 31.2,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.6,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 90,
+      "receptoresProgesterona": 60
+    }
+  },
+  {
+    "id": 149,
+    "actualRecurrence": false,
+    "followUpMonths": 2.3,
+    "data": {
+      "edad": 56,
+      "imc": 31.2,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 83,
+    "actualRecurrence": true,
+    "followUpMonths": 13.4,
+    "data": {
+      "edad": 65,
+      "imc": 22.1,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 4.0,
+      "infiltracionMiometrial": "mayor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "II",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 30,
+      "receptoresProgesterona": 30
+    }
+  },
+  {
+    "id": 124,
+    "actualRecurrence": true,
+    "followUpMonths": 17.6,
+    "data": {
+      "edad": 77,
+      "imc": 32.8,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 6.0,
+      "infiltracionMiometrial": "mayor50",
+      "lvsi": "si",
+      "infiltracionCervical": "glandular",
+      "estadioFIGO": "IIIB",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 98,
+    "actualRecurrence": false,
+    "followUpMonths": 17.8,
+    "data": {
+      "edad": 77,
+      "imc": 23.2,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 135,
+    "actualRecurrence": false,
+    "followUpMonths": 0.6,
+    "data": {
+      "edad": 68,
+      "imc": 28,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 113,
+    "actualRecurrence": false,
+    "followUpMonths": 47.6,
+    "data": {
+      "edad": 67,
+      "imc": 34.7,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.5,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 90,
+      "receptoresProgesterona": 90
+    }
+  },
+  {
+    "id": 99,
+    "actualRecurrence": false,
+    "followUpMonths": 69.4,
+    "data": {
+      "edad": 85,
+      "imc": 20.9,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.0,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 40,
+      "receptoresProgesterona": 43
+    }
+  },
+  {
+    "id": 23,
+    "actualRecurrence": false,
+    "followUpMonths": 76.0,
+    "data": {
+      "edad": 52,
+      "imc": 41.0,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3.2,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 95,
+      "receptoresProgesterona": 90
+    }
+  },
+  {
+    "id": 43,
+    "actualRecurrence": false,
+    "followUpMonths": 21.6,
+    "data": {
+      "edad": 64,
+      "imc": 26.6,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 4.0,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 90,
+      "receptoresProgesterona": 90
+    }
+  },
+  {
+    "id": 107,
+    "actualRecurrence": false,
+    "followUpMonths": 51.8,
+    "data": {
+      "edad": 63,
+      "imc": 25.6,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.0,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 40,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 88,
+    "actualRecurrence": false,
+    "followUpMonths": 65.0,
+    "data": {
+      "edad": 39,
+      "imc": 25.9,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 16,
+    "actualRecurrence": false,
+    "followUpMonths": 3.3,
+    "data": {
+      "edad": 78,
+      "imc": 28,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 155,
+    "actualRecurrence": false,
+    "followUpMonths": 0.0,
+    "data": {
+      "edad": 53,
+      "imc": 35.2,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 1,
+    "actualRecurrence": false,
+    "followUpMonths": 8.0,
+    "data": {
+      "edad": 92,
+      "imc": 24.1,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 90,
+    "actualRecurrence": true,
+    "followUpMonths": 51.5,
+    "data": {
+      "edad": 46,
+      "imc": 25.0,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "mayor50",
+      "lvsi": "si",
+      "infiltracionCervical": "glandular",
+      "estadioFIGO": "IVB",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 50,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 125,
+    "actualRecurrence": true,
+    "followUpMonths": 14.6,
+    "data": {
+      "edad": 58,
+      "imc": 16.7,
+      "gradoHistologico": "grado2",
+      "tamanoTumoral": 4.0,
+      "infiltracionMiometrial": "serosa",
+      "lvsi": "si",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 158,
+    "actualRecurrence": false,
+    "followUpMonths": 15.7,
+    "data": {
+      "edad": 68,
+      "imc": 41.3,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.0,
+      "infiltracionMiometrial": "sin",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 63,
+    "actualRecurrence": false,
+    "followUpMonths": 63.1,
+    "data": {
+      "edad": 44,
+      "imc": 39.8,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 2.3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 50,
+      "receptoresProgesterona": 50
+    }
+  },
+  {
+    "id": 68,
+    "actualRecurrence": false,
+    "followUpMonths": 63.2,
+    "data": {
+      "edad": 61,
+      "imc": 24.1,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 26,
+    "actualRecurrence": false,
+    "followUpMonths": 3.4,
+    "data": {
+      "edad": 83,
+      "imc": 34.1,
+      "gradoHistologico": "grado2",
+      "tamanoTumoral": 3,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "si",
+      "infiltracionCervical": "glandular",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 76,
+    "actualRecurrence": false,
+    "followUpMonths": 73.6,
+    "data": {
+      "edad": 77,
+      "imc": 41.6,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 0.2,
+      "infiltracionMiometrial": "menor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "deficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 65,
+    "actualRecurrence": true,
+    "followUpMonths": 23.6,
+    "data": {
+      "edad": 71,
+      "imc": 23.9,
+      "gradoHistologico": "grado2",
+      "tamanoTumoral": 0.5,
+      "infiltracionMiometrial": "serosa",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "IA",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 80,
+      "receptoresProgesterona": 70
+    }
+  },
+  {
+    "id": 118,
+    "actualRecurrence": false,
+    "followUpMonths": 53.3,
+    "data": {
+      "edad": 68,
+      "imc": 29.1,
+      "gradoHistologico": "grado1",
+      "tamanoTumoral": 3.4,
+      "infiltracionMiometrial": "mayor50",
+      "lvsi": "no",
+      "infiltracionCervical": "no",
+      "estadioFIGO": "II",
+      "p53": "normal",
+      "mmrStatus": "proficient",
+      "receptoresEstrogenos": 100,
+      "receptoresProgesterona": 90
+    }
+  }
+]
