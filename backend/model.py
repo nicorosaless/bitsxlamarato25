@@ -17,15 +17,22 @@ warnings.filterwarnings('ignore')
 
 # Sklearn imports
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import (
-    accuracy_score, roc_auc_score, classification_report, 
+    accuracy_score, roc_auc_score, classification_report,
     confusion_matrix, roc_curve, precision_recall_curve,
     average_precision_score, f1_score, brier_score_loss
 )
 from sklearn.calibration import calibration_curve
+from sklearn.neighbors import NearestNeighbors
+
+# Other imports
+from lifelines import CoxPHFitter
 
 # Visualization
 import matplotlib.pyplot as plt
@@ -87,6 +94,9 @@ class NESTPredictionModel:
         self.metrics = {}
         self.training_date = None
         self.medians = {}  # Para imputación
+        self.knn_model = None
+        self.survival_model = None
+        self.survival_data = None  # To store training data for survival function estimation
         
     def load_data(self):
         """Carga y prepara los datos."""
@@ -129,6 +139,7 @@ class NESTPredictionModel:
         print(f"ENTRENAMIENTO DEL MODELO: {model_type.upper()}")
         print(f"{'='*60}")
         
+
         # Preparar datos
         X = self.prepare_features(df, fit=True)
         y = df['recidiva'].values
@@ -215,6 +226,205 @@ class NESTPredictionModel:
         self._X_test = X_test
         
         return self.metrics
+
+    def train_similarity_model(self, df):
+        """Entrena el modelo de búsqueda de pacientes similares (KNN)."""
+        print("\n🔍 Entrenando modelo de similaridad (KNN)...")
+        
+        # Preparar data
+        X = self.prepare_features(df, fit=False)  # Ya se hizo fit en train() principal
+        
+        # Escalar (usar el scaler ya entrenado)
+        X_scaled = self.scaler.transform(X)
+        
+        # Entrenar KNN
+        self.knn_model = NearestNeighbors(n_neighbors=5, metric='euclidean')
+        self.knn_model.fit(X_scaled)
+        
+        # Guardar historial para recuperar datos al buscar
+        self.history_df = df.copy().reset_index(drop=True)
+        print("✅ Modelo KNN entrenado.")
+
+    def find_similar_patients(self, patient_data, k=5):
+        """encuentra pacientes similares en el histórico."""
+        if self.knn_model is None:
+            raise ValueError("Modelo KNN no entrenado.")
+            
+        # Preparar features
+        X_query = pd.DataFrame([patient_data])
+        for col in self.FEATURE_COLS:
+            if col not in X_query.columns:
+                X_query[col] = self.medians.get(col, 0)
+        X_query = X_query[self.FEATURE_COLS]
+        
+        # Imputar y escalar
+        for col in X_query.columns:
+            X_query[col] = X_query[col].fillna(self.medians.get(col, 0))
+            
+        X_query_scaled = self.scaler.transform(X_query)
+        
+        # Buscar vecinos
+        distances, indices = self.knn_model.kneighbors(X_query_scaled, n_neighbors=k)
+        
+        # Recuperar datos reales
+        similar_patients = []
+        for i, idx in enumerate(indices[0]):
+            patient = self.history_df.iloc[idx]
+            
+            # Handle NaN safely
+            def safe_int(val):
+                try:
+                    if pd.isna(val): return 0
+                    return int(val)
+                except:
+                    return 0
+            
+            sim_data = {
+                'match_score': float(1 / (1 + distances[0][i])), # Score similaridad
+                'edad': safe_int(patient.get('edad')),
+                'grado': safe_int(patient.get('grado_histologi')),
+                'estadio': safe_int(patient.get('FIGO2023')),
+                'recidiva': bool(patient.get('recidiva', 0)),
+                'tiempo_seguimiento': safe_int(patient.get('tiempo_transcur')),
+                'tratamientos': []
+            }
+            # Intentar extraer info de tratamientos si existe en el CSV
+            if 'Tratamiento_sistemico' in patient and patient['Tratamiento_sistemico']:
+                sim_data['tratamientos'].append(str(patient['Tratamiento_sistemico']))
+            
+            similar_patients.append(sim_data)
+            
+        return similar_patients
+
+    def train_survival_model(self, df):
+        """Entrena modelo de Cox para curvas de supervivencia."""
+        print("\n⏳ Entrenando modelo de supervivencia (CoxPH)...")
+        
+        # Preparar datos 
+        # Cox necesita tiempo y evento
+        surv_df = df.copy()
+        
+        # Mapear columnas requeridas
+        # Asumimos que 'tiempo_transcur' es el tiempo y 'recidiva' el evento
+        if 'tiempo_transcur' not in surv_df.columns or surv_df['tiempo_transcur'].isnull().all():
+            if 'diferencia_dias_reci_exit' in surv_df.columns:
+                print("⚠️ Usando 'diferencia_dias_reci_exit' como tiempo de seguimiento")
+                surv_df['tiempo_transcur'] = surv_df['diferencia_dias_reci_exit']
+            else:
+                print("⚠️ No hay columna de tiempo, usando simulada para demo")
+                surv_df['tiempo_transcur'] = np.random.randint(30, 1800, len(surv_df)) # Simulacion por seguridad
+            
+        # Limpiar data para Cox (no NaNs)
+        surv_df = surv_df.dropna(subset=['tiempo_transcur', 'recidiva'])
+        surv_df['tiempo_transcur'] = pd.to_numeric(surv_df['tiempo_transcur'], errors='coerce').fillna(0)
+        surv_df = surv_df[surv_df['tiempo_transcur'] > 0]
+        
+        if surv_df.empty:
+            print("⚠️ No quedan datos para supervivencia tras limpieza.")
+            self.survival_model = None
+            return
+
+        # Eliminar columnas constantes si existen en el subset
+        if len(surv_df) > 1:
+            try:
+                # Use apply to avoid index error if single row
+                surv_df = surv_df.loc[:, surv_df.apply(pd.Series.nunique) > 1]
+            except Exception as e:
+                print(f"Advertencia limpiando columnas constantes: {e}")
+        
+        print(f"   Datos para CoxPH: {len(surv_df)} muestras")
+        
+        if len(surv_df) < 10:
+            print("⚠️ Insuficientes datos para CoxPH (<10 muestras)")
+            self.survival_model = None
+            return
+
+        # Prepare features
+        # Filter FEATURE_COLS that actually exist in surv_df after        # Prepare features
+        # Actually safer to just use all FEATURE_COLS but impute carefully
+        X_surv = self.prepare_features(surv_df, fit=False)
+        
+        # Escalar features para ayudar a convergencia CoxPH
+        if self.scaler:
+            try:
+                X_surv_scaled = self.scaler.transform(X_surv)
+                X_surv = pd.DataFrame(X_surv_scaled, columns=X_surv.columns, index=X_surv.index)
+            except Exception as e:
+                print(f"⚠️ Error escalando datos para Cox: {e}")
+
+        surv_data_clean = pd.concat([X_surv, surv_df[['tiempo_transcur', 'recidiva']]], axis=1)
+        
+        # Check for NaNs again in combined
+        surv_data_clean = surv_data_clean.dropna()
+        
+        self.survival_model = CoxPHFitter(penalizer=0.01) # Reducir penalizer ahora que escalamos
+        try:
+            self.survival_model.fit(surv_data_clean, duration_col='tiempo_transcur', event_col='recidiva')
+            self.survival_data = surv_data_clean # Guardar para baseline hazard
+            print("✅ Modelo CoxPH entrenado.")
+        except Exception as e:
+            print(f"❌ Error entrenando CoxPH: {e}")
+            self.survival_model = None
+
+    def predict_survival_curve(self, patient_data):
+        """Predice curva de supervivencia para un paciente."""
+        if self.survival_model is None:
+            return None
+            
+        # Preparar data
+        X = pd.DataFrame([patient_data])
+        for col in self.FEATURE_COLS:
+            if col not in X.columns:
+                X[col] = self.medians.get(col, 0)
+        
+        X = X[self.FEATURE_COLS]
+        for col in X.columns:
+            X[col] = X[col].fillna(self.medians.get(col, 0))
+            
+        # Escalar (importante para CoxPH si se entrenó escalado)
+        if self.scaler:
+             try:
+                X_scaled_arr = self.scaler.transform(X)
+                X = pd.DataFrame(X_scaled_arr, columns=X.columns, index=X.index)
+             except Exception as e:
+                 print(f"⚠️ Error escalando input survival: {e}")
+            
+        # Predecir función de supervivencia
+        # survival_function_at_times o predict_survival_function
+        try:
+            # predict_survival_function retorna DataFrame con index=tiempo, cols=pacientes
+            surv_func = self.survival_model.predict_survival_function(X)
+            
+            # Formatear para frontend
+            # surv_func es un DataFrame con indice=tiempo, columnas=pacientes (0)
+            times = surv_func.index.tolist()
+            probs = surv_func.iloc[:, 0].tolist()
+            
+            # Filtrar para no enviar miles de puntos (ej. cada 30 dias o puntos clave)
+            curve_data = []
+            
+            # Puntos clave: 12, 36, 60 meses (aprox 365, 1095, 1825 dias)
+            key_years = {1: None, 3: None, 5: None}
+            
+            for t, p in zip(times, probs):
+                curve_data.append({"days": int(t), "prob": float(p)})
+                
+                # Capturar prob a años específicos
+                if t >= 365 and key_years[1] is None: key_years[1] = float(p)
+                if t >= 1095 and key_years[3] is None: key_years[3] = float(p)
+                if t >= 1825 and key_years[5] is None: key_years[5] = float(p)
+                
+            return {
+                "curve": curve_data, # Serie completa
+                "projections": {
+                    "1_year": key_years[1] if key_years[1] else probs[-1],
+                    "3_year": key_years[3] if key_years[3] else (probs[-1] if times[-1] < 1095 else 0.0),
+                    "5_year": key_years[5] if key_years[5] else (probs[-1] if times[-1] < 1825 else 0.0)
+                }
+            }
+        except Exception as e:
+            print(f"Error prediciendo survival: {e}")
+            return None
     
     def _print_results(self, y_test, y_pred, y_prob):
         """Muestra los resultados del entrenamiento."""
@@ -374,6 +584,10 @@ class NESTPredictionModel:
             'metrics': self.metrics,
             'medians': self.medians,
             'training_date': self.training_date,
+            'knn_model': self.knn_model,
+            'survival_model': self.survival_model,
+            'history_df': getattr(self, 'history_df', None),
+            'survival_data': getattr(self, 'survival_data', None)
         }
         
         with open(filepath, 'wb') as f:
@@ -423,6 +637,14 @@ class NESTPredictionModel:
         instance.metrics = model_data['metrics']
         instance.medians = model_data['medians']
         instance.training_date = model_data['training_date']
+        instance.knn_model = model_data.get('knn_model')
+        instance.survival_model = model_data.get('survival_model')
+        instance.history_df = model_data.get('history_df')
+        instance.survival_data = model_data.get('survival_data')
+        
+        # Si se cargó un modelo antiguo sin knn, entrenar si hay datos (o dejar None)
+        # Idealmente deberíamos guardar el history_df en el pickle para que funcione el KNN
+
         
         print(f"📂 Modelo cargado: {instance.model_type}")
         print(f"   AUC-ROC: {instance.metrics.get('auc_roc', 'N/A'):.3f}")
@@ -448,6 +670,10 @@ def train_all_models():
         model = NESTPredictionModel()
         model.load_data()
         metrics = model.train(df, model_type=model_type)
+        # Entrenar modelos adicionales para el mejor o para todos (por ahora para todos para probar)
+        model.train_similarity_model(df)
+        model.train_survival_model(df)
+        
         results[model_type] = {
             'model': model,
             'metrics': metrics
@@ -532,6 +758,22 @@ def demo_prediction():
     result2 = model.predict(caso_alto)
     print(f"   Probabilidad de recurrencia: {result2['probability_percent']:.1f}%")
     print(f"   Grupo de riesgo: {result2['risk_group']}")
+
+    # Demo Similar
+    print("\n🔍 CASO 1 - Pacientes Similares:")
+    similar = model.find_similar_patients(caso_bajo)
+    for s in similar:
+        print(f"   - Match: {s['match_score']:.2f} | Recaída: {s['recidiva']}")
+        
+    print("\n⏳ CASO 1 - Curva Supervivencia:")
+    try:
+        surv = model.predict_survival_curve(caso_bajo)
+        if surv:
+            print(f"   Prob 1 año: {surv['projections']['1_year']:.1%}")
+            print(f"   Prob 3 años: {surv['projections']['3_year']:.1%}")
+            print(f"   Prob 5 años: {surv['projections']['5_year']:.1%}")
+    except Exception as e:
+        print(f"   ⚠️ No se pudo generar curva de supervivencia: {e}")
 
 
 if __name__ == "__main__":

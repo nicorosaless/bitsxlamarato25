@@ -14,6 +14,10 @@ import numpy as np
 from pathlib import Path
 import pickle
 import json
+from model import NESTPredictionModel
+
+# Global model instance
+nest_model = None
 
 app = FastAPI(
     title="NEST API",
@@ -32,6 +36,23 @@ app.add_middleware(
 
 # Load model on startup
 MODEL_PATH = Path(__file__).parent / "models"
+
+@app.on_event("startup")
+async def load_model():
+    global nest_model
+    try:
+        # Intentar cargar modelo existente
+        model_file = MODEL_PATH / "nest_model_logistic.pkl"
+        if model_file.exists():
+            nest_model = NESTPredictionModel.load(model_file)
+            print("✅ Modelo KNN/Survival cargado correctamente")
+        else:
+            print("⚠️ No se encontró modelo entrenado. Entrenando uno nuevo...")
+            # Entrenar de cero si no existe (puede tardar un poco)
+            from model import train_all_models
+            nest_model, _ = train_all_models()
+    except Exception as e:
+        print(f"❌ Error cargando modelo: {e}")
 
 # Model coefficients (from trained logistic regression)
 COEFFICIENTS = {
@@ -300,6 +321,42 @@ async def predict_batch(patients: List[PatientData]):
         return {"results": results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/predict/similar-patients")
+async def get_similar_patients(patient: PatientData):
+    """Find similar patients in historical data."""
+    if nest_model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
+        
+    try:
+        # Convert Pydantic model to dict
+        patient_dict = patient.dict()
+        similar = nest_model.find_similar_patients(patient_dict)
+        return {"similar_patients": similar}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/predict/survival-curve")
+async def get_survival_curve(patient: PatientData):
+    """Get personalized survival curve."""
+    if nest_model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
+        
+    try:
+        # Convert Pydantic model to dict
+        patient_dict = patient.dict()
+        survival = nest_model.predict_survival_curve(patient_dict)
+    except Exception as e:
+        print(f"Error in prediction: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+    if survival is None:
+            # Return empty/null response instead of 404/500 to let frontend handle it gracefully
+            return None 
+            
+    return survival
 
 
 if __name__ == "__main__":

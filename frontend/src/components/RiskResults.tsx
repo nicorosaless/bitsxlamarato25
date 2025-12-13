@@ -14,6 +14,11 @@ import {
 } from "lucide-react";
 import { RiskResult, MODEL_INFO } from "@/lib/riskCalculator";
 import { FormData } from "./RiskForm";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSimilarPatients, fetchSurvivalCurve } from "@/lib/api";
+import SimilarPatients from "./SimilarPatients";
+import SurvivalCurve from "./SurvivalCurve";
+import { Loader2 } from "lucide-react";
 
 interface RiskResultsProps {
   result: RiskResult;
@@ -62,6 +67,19 @@ const RiskResults = ({ result, formData, onReset, onExport }: RiskResultsProps) 
   // Calculate base risk (18.8% cohort average)
   const baseRisk = 18.8;
 
+  // Queries for advanced advanced features
+  const { data: similarPatients, isLoading: loadingSimilar } = useQuery({
+    queryKey: ['similar-patients', formData],
+    queryFn: () => formData ? fetchSimilarPatients(formData) : Promise.resolve([]),
+    enabled: !!formData && activeTab === 'advanced',
+  });
+
+  const { data: survivalData, isLoading: loadingSurvival } = useQuery({
+    queryKey: ['survival-curve', formData],
+    queryFn: () => formData ? fetchSurvivalCurve(formData) : Promise.resolve(null),
+    enabled: !!formData && activeTab === 'advanced',
+  });
+
   return (
     <TooltipProvider>
       <div className="space-y-6 animate-fade-in">
@@ -76,7 +94,7 @@ const RiskResults = ({ result, formData, onReset, onExport }: RiskResultsProps) 
 
         {/* Tabs for different views */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 h-auto">
+          <TabsList className="grid w-full grid-cols-5 h-auto">
             <TabsTrigger value="overview" className="text-xs py-2">
               <Brain className="w-3 h-3 mr-1" />
               Resumen
@@ -92,6 +110,10 @@ const RiskResults = ({ result, formData, onReset, onExport }: RiskResultsProps) 
             <TabsTrigger value="cohort" className="text-xs py-2">
               <Users className="w-3 h-3 mr-1" />
               Cohorte
+            </TabsTrigger>
+            <TabsTrigger value="advanced" className="text-xs py-2">
+              <TrendingUp className="w-3 h-3 mr-1" />
+              NEST+
             </TabsTrigger>
           </TabsList>
 
@@ -211,6 +233,32 @@ const RiskResults = ({ result, formData, onReset, onExport }: RiskResultsProps) 
               />
             </Card>
           </TabsContent>
+
+          {/* Advanced Tab (New Features) */}
+          <TabsContent value="advanced" className="mt-4 space-y-6">
+            {/* Survival Curve */}
+            <Card className="p-4">
+              <h4 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-primary" />
+                Curva de Supervivencia Personalizada (5 años)
+              </h4>
+              <div className="min-h-[300px]">
+                {loadingSurvival ? (
+                  <div className="flex h-[300px] items-center justify-center">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                  </div>
+                ) : survivalData ? (
+                  <SurvivalCurve data={survivalData} />
+                ) : (
+                  <div className="text-center py-10 text-muted-foreground">
+                    No se pudo generar la curva.
+                  </div>
+                )}
+              </div>
+            </Card>
+
+
+          </TabsContent>
         </Tabs>
 
         {/* Model Info */}
@@ -248,7 +296,7 @@ const RiskResults = ({ result, formData, onReset, onExport }: RiskResultsProps) 
           </Button>
         </div>
       </div>
-    </TooltipProvider>
+    </TooltipProvider >
   );
 };
 
