@@ -123,7 +123,7 @@ const RiskResults = ({ result, formData, onReset, onExport }: RiskResultsProps) 
             <Card className="p-4 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
               <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                 <Brain className="w-4 h-4 text-primary" />
-                Explicación del Modelo
+                Explicación del Resultado
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {result.modelExplanation}

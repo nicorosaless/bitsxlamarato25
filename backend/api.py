@@ -131,6 +131,8 @@ class PredictionResult(BaseModel):
     risk_factors: List[str]
     recommendations: List[str]
     model_info: dict
+    modelExplanation: str
+    factorContributions: dict
 
 
 def sigmoid(x: float) -> float:
@@ -156,16 +158,52 @@ def predict_risk(data: PatientData) -> PredictionResult:
         "FIGO2023": data.FIGO2023,
     }
     
-    # Calculate logit
+    # Calculate logit and contributions
     logit = INTERCEPT
+    contributions = {}
+    
     for feature, coef in COEFFICIENTS.items():
         standardized = (features[feature] - MEANS[feature]) / STDS[feature]
-        logit += coef * standardized
-    
+        contribution = coef * standardized
+        logit += contribution
+        
+        # Map feature name to readable label
+        readable_name = {
+            "edad": "Edad",
+            "imc": "IMC",
+            "grado_histologi": "Grado Histológico",
+            "tamano_tumoral": "Tamaño Tumor",
+            "infiltracion_mi": "Infiltración Miometrial",
+            "afectacion_linf": "LVSI",
+            "infilt_estr_cervix": "Infiltración Cervical",
+            "p53_ihq": "p53",
+            "recep_est_porcent": "Receptores Estrógenos",
+            "rece_de_Ppor": "Receptores Progesterona",
+            "FIGO2023": "Estadio FIGO",
+        }.get(feature, feature)
+        
+        contributions[readable_name] = float(contribution)
+
     # Calculate probability
     probability = sigmoid(logit)
     probability_percent = round(probability * 100, 1)
     
+    # Generate Natural Language Explanation
+    # Sort contributions by magnitude
+    sorted_contribs = sorted(contributions.items(), key=lambda x: x[1], reverse=True)
+    top_risk_factors = [f"{k}" for k, v in sorted_contribs if v > 0.2][:3]
+    top_protective_factors = [f"{k}" for k, v in sorted_contribs if v < -0.2][-3:]
+    
+    explanation = f"El modelo ha calculado una probabilidad de recidiva del {probability_percent}%."
+    
+    if top_risk_factors:
+        explanation += f" Los principales factores que AUMENTAN el riesgo en esta paciente son: {', '.join(top_risk_factors)}."
+    else:
+        explanation += " No se han detectado factores que aumenten drásticamente el riesgo."
+        
+    if top_protective_factors:
+        explanation += f" Por otro lado, {', '.join(top_protective_factors)} actúan como factores PROTECTORES disminuyendo la probabilidad."
+
     # Determine risk group
     if probability < 0.10:
         risk_group = "Bajo"
@@ -207,7 +245,7 @@ def predict_risk(data: PatientData) -> PredictionResult:
             "Evaluación multidisciplinar urgente",
         ]
     
-    # Identify risk factors
+    # Identify risk factors (keep existing logic for simple list)
     risk_factors = []
     
     if data.grado_histologi == 2:
@@ -254,6 +292,8 @@ def predict_risk(data: PatientData) -> PredictionResult:
         risk_color=risk_color,
         risk_factors=risk_factors,
         recommendations=recommendations,
+        modelExplanation=explanation,
+        factorContributions=contributions,
         model_info={
             "name": "NEST v1.0",
             "type": "Logistic Regression",

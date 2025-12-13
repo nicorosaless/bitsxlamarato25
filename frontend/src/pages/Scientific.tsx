@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
     BarChart3, GitBranch, FileText, TrendingUp,
-    PieChart, Activity, Database, BookOpen, CheckCircle
+    PieChart, Activity, Database, BookOpen, CheckCircle, Cpu
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -150,7 +150,7 @@ const ScientificAnalysis = () => {
 
                     {/* Tabs */}
                     <Tabs defaultValue="validation" className="w-full">
-                        <TabsList className="grid w-full grid-cols-3 mb-6">
+                        <TabsList className="grid w-full grid-cols-4 mb-6">
                             <TabsTrigger value="validation">
                                 <CheckCircle className="w-4 h-4 mr-2" />
                                 Validación Sets
@@ -158,6 +158,10 @@ const ScientificAnalysis = () => {
                             <TabsTrigger value="visualizations">
                                 <BarChart3 className="w-4 h-4 mr-2" />
                                 Visualizaciones
+                            </TabsTrigger>
+                            <TabsTrigger value="development">
+                                <Cpu className="w-4 h-4 mr-2" />
+                                Desarrollo
                             </TabsTrigger>
                             <TabsTrigger value="references">
                                 <FileText className="w-4 h-4 mr-2" />
@@ -210,6 +214,90 @@ const ScientificAnalysis = () => {
                             </div>
                         </TabsContent>
 
+                        {/* Model Development Tab */}
+                        <TabsContent value="development">
+                            <div className="space-y-6">
+                                {/* Methodology Detail Card */}
+                                <Card className="p-6 bg-card border-border">
+                                    <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                                        <Activity className="w-6 h-6 text-primary" />
+                                        Metodología: Del Dato a la Predicción Neural
+                                    </h3>
+
+                                    <div className="grid gap-8">
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            <div>
+                                                <h4 className="flex items-center gap-2 font-semibold text-foreground mb-3 text-lg">
+                                                    <Database className="w-5 h-5 text-blue-500" />
+                                                    1. Tratamiento de Datos
+                                                </h4>
+                                                <ul className="list-disc pl-5 space-y-2 text-muted-foreground text-sm leading-relaxed">
+                                                    <li><strong>Dataset:</strong> 154 pacientes NSMP del Hospital Sant Pau.</li>
+                                                    <li><strong>Limpieza:</strong> Imputación inteligente (mediana/moda) para maximizar n.</li>
+                                                    <li><strong>Ingeniería:</strong> Normalización Z-score y creación de variables compuestas (Mismatch Repair status).</li>
+                                                    <li><strong>Bias Check:</strong> Exclusión de variables de tratamiento para evitar sesgo de indicación.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div>
+                                                <h4 className="flex items-center gap-2 font-semibold text-foreground mb-3 text-lg">
+                                                    <GitBranch className="w-5 h-5 text-green-500" />
+                                                    2. Comparativa de Modelos
+                                                </h4>
+                                                <p className="text-sm text-muted-foreground mb-4">
+                                                    Se entrenaron y validaron 3 arquitecturas diferentes para encontrar el equilibrio perfecto entre precisión e interpretabilidad:
+                                                </p>
+                                                <div className="space-y-3">
+                                                    <div className="flex items-center justify-between p-2 bg-muted/40 rounded border border-border/50">
+                                                        <span className="text-sm font-medium">Logistic Regression (L2)</span>
+                                                        <Badge className="bg-green-500/15 text-green-600 hover:bg-green-500/25 border-green-500/20">Seleccionado</Badge>
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-2 bg-muted/40 rounded border border-border/50 opacity-70">
+                                                        <span className="text-sm">Random Forest</span>
+                                                        <Badge variant="outline" className="text-muted-foreground">Descartado (Overfitting)</Badge>
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-2 bg-muted/40 rounded border border-border/50 opacity-70">
+                                                        <span className="text-sm">Gradient Boosting</span>
+                                                        <Badge variant="outline" className="text-muted-foreground">Descartado (Caja Negra)</Badge>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="border-t border-border/50 pt-6">
+                                            <h4 className="flex items-center gap-2 font-semibold text-foreground mb-4 text-lg">
+                                                <TrendingUp className="w-5 h-5 text-purple-500" />
+                                                3. Arquitectura del Sistema Final
+                                            </h4>
+                                            <div className="grid md:grid-cols-3 gap-4">
+                                                <Card className="p-4 bg-background/50 border-primary/10 hover:border-primary/30 transition-colors">
+                                                    <div className="font-semibold text-primary mb-1">Predicción de Riesgo</div>
+                                                    <div className="text-xs text-muted-foreground italic mb-2">Regresión Logística Regularizada</div>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Proporciona la probabilidad base de recurrencia. Calibrada para minimizar falsos negativos en pacientes de alto riesgo.
+                                                    </p>
+                                                </Card>
+                                                <Card className="p-4 bg-background/50 border-primary/10 hover:border-primary/30 transition-colors">
+                                                    <div className="font-semibold text-primary mb-1">Análisis de Supervivencia</div>
+                                                    <div className="text-xs text-muted-foreground italic mb-2">Cox Proportional Hazards</div>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Genera curvas temporales personalizadas $S(t)$, estimando la probabilidad de supervivencia libre de enfermedad meses a meses.
+                                                    </p>
+                                                </Card>
+                                                <Card className="p-4 bg-background/50 border-primary/10 hover:border-primary/30 transition-colors">
+                                                    <div className="font-semibold text-primary mb-1">Búsqueda de Similares</div>
+                                                    <div className="text-xs text-muted-foreground italic mb-2">KNN (K-Nearest Neighbors)</div>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Encuentra "gemelas clínicas" en el histórico mediante distancia euclidiana en el espacio vectorial de features.
+                                                    </p>
+                                                </Card>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Card>
+                            </div>
+                        </TabsContent>
+
                         {/* References Tab */}
                         <TabsContent value="references">
                             <div className="space-y-4">
@@ -229,67 +317,18 @@ const ScientificAnalysis = () => {
                                                 <p className="text-sm text-muted-foreground">
                                                     {ref.description}
                                                 </p>
+                                                <a
+                                                    href={ref.link}
+                                                    className="inline-flex items-center text-xs text-primary hover:underline mt-2"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    Ver publicación
+                                                </a>
                                             </div>
                                         </div>
                                     </Card>
                                 ))}
-
-                                {/* Methodology Detail Card */}
-                                <Card className="p-5 bg-card border-border">
-                                    <h3 className="font-semibold mb-4 flex items-center gap-2">
-                                        <Activity className="w-5 h-5 text-primary" />
-                                        Metodología Detallada: Del Dato al Modelo
-                                    </h3>
-
-                                    <div className="space-y-6 text-sm text-muted-foreground">
-                                        <div>
-                                            <h4 className="font-medium text-foreground mb-1">1. Ingeniería de Datos & Preprocesamiento</h4>
-                                            <ul className="list-disc pl-4 space-y-1">
-                                                <li><strong>Dataset:</strong> 154 pacientes con cáncer de endometrio NSMP del Hospital Sant Pau.</li>
-                                                <li><strong>Limpieza:</strong> Estandarización de variables categóricas. Imputación de valores faltantes (NaN) mediante mediana (numéricas) o moda (categóricas) para maximizar el uso de datos.</li>
-                                                <li><strong>Feature Engineering:</strong> Creación de variable `mmr_deficient` combinando MSH2, MSH6, PMS2, MLH1. Normalización Z-score para variables continuas.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div>
-                                            <h4 className="font-medium text-foreground mb-1">2. Selección de Variables & Bias Verification</h4>
-                                            <p className="mb-2">
-                                                Se exploraron variables de tratamiento (Radioterapia, Braquiterapia, Quimioterapia) pero fueron <strong>excluidas del modelo final</strong> tras detectar un sesgo de indicación (<em>Confounding by Indication</em>):
-                                            </p>
-                                            <div className="bg-muted/50 p-3 rounded-md text-xs font-mono mb-2">
-                                                Análisis: Pacientes que recibieron QT tuvieron una tasa de recidiva del 51% vs 11% en no tratadas.
-                                                Esto NO implica que la QT cause recidiva, sino que se prescribe preferentemente a pacientes de alto riesgo.
-                                                Incluirla introduciría un sesgo negativo en las predicciones.
-                                            </div>
-                                            <p>
-                                                El modelo se centra exclusivamente en <strong>factores intrínsecos</strong> (biología del tumor y estado clínico) para ofrecer un pronóstico basal puro.
-                                            </p>
-                                        </div>
-
-                                        <div>
-                                            <h4 className="font-medium text-foreground mb-1">3. Selección del Modelo</h4>
-                                            <ul className="list-disc pl-4 space-y-1">
-                                                <li>Se evaluaron algoritmos: Random Forest, Gradient Boosting y Regresión Logística.</li>
-                                                <li><strong>Ganador:</strong> Regresión Logística con regularización L2 (Ridge).</li>
-                                                <li><strong>Motivo:</strong> Mayor robustez ante overfitting en datasets pequeños (n=154), mejor interpretabilidad clínica (coeficientes lineales) y excelente calibración (Brier Score = 0.12).</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </Card>
-                                {/* Methodology Card */}
-                                <Card className="p-5 bg-accent/30 border-primary/20">
-                                    <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                        <Activity className="w-5 h-5 text-primary" />
-                                        Metodología del Modelo
-                                    </h3>
-                                    <div className="text-sm text-muted-foreground space-y-2">
-                                        <p><strong>Tipo:</strong> Regresión Logística con regularización L2</p>
-                                        <p><strong>Validación:</strong> Hold-out 75/25 con estratificación + Cross-validation 5-fold</p>
-                                        <p><strong>Preprocesamiento:</strong> Imputación por mediana, estandarización Z-score</p>
-                                        <p><strong>Balance de clases:</strong> Ponderación inversa a frecuencia</p>
-                                        <p><strong>Variables:</strong> Clínicas (edad, IMC), histopatológicas (grado, LVSI, infiltración), moleculares (p53, MMR, receptores hormonales)</p>
-                                    </div>
-                                </Card>
                             </div>
                         </TabsContent>
                     </Tabs>

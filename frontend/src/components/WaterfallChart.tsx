@@ -98,8 +98,8 @@ const WaterfallChart = ({ contributions, baseRisk, finalRisk }: WaterfallChartPr
                 <div className="flex-1 h-8 bg-muted rounded-full overflow-hidden relative">
                     <div
                         className={`absolute h-full rounded-full transition-all duration-700 ${finalRisk < 10 ? 'bg-green-500' :
-                                finalRisk < 25 ? 'bg-yellow-500' :
-                                    finalRisk < 50 ? 'bg-orange-500' : 'bg-red-500'
+                            finalRisk < 25 ? 'bg-yellow-500' :
+                                finalRisk < 50 ? 'bg-orange-500' : 'bg-red-500'
                             }`}
                         style={{ width: `${finalRisk}%`, left: 0 }}
                     />
