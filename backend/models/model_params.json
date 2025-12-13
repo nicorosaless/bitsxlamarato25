@@ -1,0 +1,52 @@
+{
+  "model_type": "random_forest",
+  "features": [
+    "edad",
+    "imc",
+    "grado_histologi",
+    "tamano_tumoral",
+    "infiltracion_mi",
+    "afectacion_linf",
+    "infilt_estr_cervix",
+    "p53_ihq",
+    "recep_est_porcent",
+    "rece_de_Ppor",
+    "FIGO2023"
+  ],
+  "feature_names": {
+    "edad": "Edad (a\u00f1os)",
+    "imc": "IMC (kg/m\u00b2)",
+    "grado_histologi": "Grado Histol\u00f3gico",
+    "tamano_tumoral": "Tama\u00f1o Tumoral (cm)",
+    "infiltracion_mi": "Infiltraci\u00f3n Miometrial",
+    "afectacion_linf": "LVSI",
+    "infilt_estr_cervix": "Infiltraci\u00f3n Cervical",
+    "p53_ihq": "p53 IHQ",
+    "recep_est_porcent": "Receptores ER (%)",
+    "rece_de_Ppor": "Receptores PR (%)",
+    "FIGO2023": "Estadio FIGO 2023"
+  },
+  "medians": {
+    "edad": 63.0,
+    "imc": 29.4,
+    "grado_histologi": 1.0,
+    "tamano_tumoral": 2.8,
+    "infiltracion_mi": 1.0,
+    "afectacion_linf": 0.0,
+    "infilt_estr_cervix": 0.0,
+    "p53_ihq": 1.0,
+    "recep_est_porcent": 90.0,
+    "rece_de_Ppor": 80.0,
+    "FIGO2023": 1.0
+  },
+  "metrics": {
+    "accuracy": 0.8717948717948718,
+    "auc_roc": 0.9732142857142857,
+    "f1": 0.5454545454545454,
+    "brier_score": 0.0741686715395833,
+    "average_precision": 0.859750566893424,
+    "cv_auc_mean": 0.8201169590643275,
+    "cv_auc_std": 0.1650861138480933
+  },
+  "training_date": "2025-12-13T14:40:30.636078"
+}
