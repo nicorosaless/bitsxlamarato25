@@ -103,7 +103,6 @@ We have developed a tool that:
 - Before/after comparison
 
 ### Advanced Tools
-- **Batch Validation**: Simultaneous processing of multiple cases
 - **Cohort Comparison**: Statistical analysis of patient groups
 - **Waterfall Charts**: Visualization of variability between cases
 - **PDF Export**: Professional reports for clinical documentation
@@ -218,7 +217,6 @@ The frontend will be available at `http://localhost:5173`
 3. Click "Calculate Risk"
 4. View:
    - Recurrence probability
-   - Assigned risk group
    - Clinical recommendations
    - Similar patients
    - Survival curve
@@ -230,13 +228,6 @@ The frontend will be available at `http://localhost:5173`
 2. Modify clinical variables (e.g., "What if myometrial infiltration was lower?")
 3. Observe how the prognosis changes
 4. Compare scenarios to make informed decisions
-
-### Batch Validation
-
-1. Go to "Batch Validation"
-2. Upload a JSON file with multiple cases
-3. View aggregated results and statistics
-4. Export the complete report
 
 ### REST API
 
@@ -376,7 +367,6 @@ This project was developed during BitsxlaMarató 2025 as a contribution to La Ma
 - [ ] Incorporation of histopathological images (Deep Learning)
 - [ ] More sophisticated ensemble models
 - [ ] Dashboard for epidemiological analysis
-- [ ] Mobile application for patient follow-up
 
 ---
 
