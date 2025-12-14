@@ -155,7 +155,7 @@ const CohortComparison = ({ riskPercentage, riskLevel }: CohortComparisonProps) 
             {/* Outcome summary */}
             <Card className={`p-4 ${getRiskColor()}`}>
                 <div className="text-sm font-medium">
-                    📊 En nuestra cohorte de {COHORT_STATS.totalPatients} pacientes NSMP:
+                    En nuestra cohorte de {COHORT_STATS.totalPatients} pacientes NSMP:
                 </div>
                 <ul className="text-sm mt-2 space-y-1">
                     <li>• <strong>{groupStats.count} pacientes</strong> clasificados en riesgo {getRiskLevelLabel()}</li>

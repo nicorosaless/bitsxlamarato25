@@ -106,17 +106,32 @@ const ScientificAnalysis = () => {
         {
             title: "ESGO-ESTRO-ESP Guidelines 2025",
             authors: "Concin N, et al.",
-            journal: "Int J Gynecol Cancer"
+            journal: "Int J Gynecol Cancer",
+            inspiration: [
+                "Sistema de estratificación de riesgo basado en subtipos moleculares",
+                "Criterios actualizados para clasificación del fenotipo NSMP",
+                "Validación de LVSI, grado histológico y estadio FIGO como variables clave"
+            ]
         },
         {
             title: "Early Endometrial Cancer Recurrence Risk Prediction",
             authors: "Hao Y, et al.",
-            journal: "Am J Cancer Res 2025"
+            journal: "Am J Cancer Res 2025",
+            inspiration: [
+                "Metodología de machine learning para predicción de recurrencia",
+                "Uso de regresión logística regularizada (Elastic Net)",
+                "Selección de features basada en importancia clínica"
+            ]
         },
         {
             title: "ESGO-ESTRO-ESP Endometrial Cancer 2021",
             authors: "Concin N, et al.",
-            journal: "Int J Gynecol Cancer 2021"
+            journal: "Int J Gynecol Cancer 2021",
+            inspiration: [
+                "Identificación del subgrupo NSMP como población de pronóstico intermedio",
+                "Justificación de herramientas predictivas específicas",
+                "Base científica para variables moleculares (ER, PR, p53)"
+            ]
         }
     ];
 
@@ -193,23 +208,23 @@ const ScientificAnalysis = () => {
                                     </div>
 
                                     {/* Bullet Points */}
-                                    <div className="space-y-4">
-                                        <h3 className="text-xl font-semibold">Características Clave</h3>
-                                        <ul className="space-y-3">
+                                    <div className="bg-muted/20 rounded-2xl p-6 border border-border/50">
+                                        <h3 className="text-xl font-semibold mb-5">Características Clave</h3>
+                                        <ul className="space-y-4">
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">•</span>
+                                                <span className="text-primary font-bold text-lg">•</span>
                                                 <span>Fenotipo molecular <Term term="NSMP">NSMP</Term> = 30-40% de cánceres endometriales</span>
                                             </li>
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">•</span>
+                                                <span className="text-primary font-bold text-lg">•</span>
                                                 <span><strong>Pronóstico intermedio</strong>: Difícil de estratificar con criterios clínicos tradicionales</span>
                                             </li>
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">•</span>
+                                                <span className="text-primary font-bold text-lg">•</span>
                                                 <span><strong>Necesidad clínica</strong>: Modelo predictivo específico para este subgrupo</span>
                                             </li>
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">•</span>
+                                                <span className="text-primary font-bold text-lg">•</span>
                                                 <span><strong>Desbalance de clases</strong>: 81.2% sin recurrencia → requiere regularización</span>
                                             </li>
                                         </ul>
@@ -241,26 +256,26 @@ const ScientificAnalysis = () => {
                                                 loading="lazy"
                                             />
                                         </div>
-                                        <div className="space-y-4">
-                                            <h3 className="text-xl font-semibold flex items-center gap-2">
+                                        <div className="bg-muted/20 rounded-2xl p-6 border border-border/50">
+                                            <h3 className="text-xl font-semibold flex items-center gap-2 mb-5">
                                                 <BarChart3 className="w-5 h-5 text-purple-500" />
                                                 Distribuciones Continuas
                                             </h3>
-                                            <ul className="space-y-3">
+                                            <ul className="space-y-4">
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Edad</strong>: No hay diferencia significativa entre grupos (p=0.23)</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Tamaño tumoral</strong>: Mayor en pacientes con recurrencia (p=0.04)</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>IMC</strong>: Distribución similar en ambos grupos</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Seguimiento</strong>: Mediana 33 meses, suficiente para detectar la mayoría de recurrencias</span>
                                                 </li>
                                             </ul>
@@ -279,26 +294,26 @@ const ScientificAnalysis = () => {
                                                 loading="lazy"
                                             />
                                         </div>
-                                        <div className="space-y-4">
-                                            <h3 className="text-xl font-semibold flex items-center gap-2">
+                                        <div className="bg-muted/20 rounded-2xl p-6 border border-border/50">
+                                            <h3 className="text-xl font-semibold flex items-center gap-2 mb-5">
                                                 <PieChart className="w-5 h-5 text-purple-500" />
                                                 Factores de Riesgo Clínicos
                                             </h3>
-                                            <ul className="space-y-3">
+                                            <ul className="space-y-4">
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><Term term="LVSI">LVSI positivo</Term>: 3x más riesgo de recurrencia (p&lt;0.001)</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Grado 3</strong>: Peor pronóstico vs Grado 1-2</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Infiltración &gt;50%</strong>: Fuerte predictor de recurrencia</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Estadio FIGO</strong>: Correlación directa con outcome</span>
                                                 </li>
                                             </ul>
@@ -317,22 +332,22 @@ const ScientificAnalysis = () => {
                                                 loading="lazy"
                                             />
                                         </div>
-                                        <div className="space-y-4">
-                                            <h3 className="text-xl font-semibold flex items-center gap-2">
+                                        <div className="bg-muted/20 rounded-2xl p-6 border border-border/50">
+                                            <h3 className="text-xl font-semibold flex items-center gap-2 mb-5">
                                                 <GitBranch className="w-5 h-5 text-purple-500" />
                                                 Matriz de Correlación
                                             </h3>
-                                            <ul className="space-y-3">
+                                            <ul className="space-y-4">
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Grado ↔ Infiltración</strong>: Correlación moderada (r=0.45) → necesitan regularización</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>ER ↔ PR</strong>: Alta correlación (r=0.72) → solo PR en modelo final</span>
                                                 </li>
                                                 <li className="flex gap-3 text-base">
-                                                    <span className="text-purple-500 font-bold">•</span>
+                                                    <span className="text-purple-500 font-bold text-lg">•</span>
                                                     <span><strong>Variables independientes</strong>: LVSI, edad, IMC aportan información única</span>
                                                 </li>
                                             </ul>
@@ -608,30 +623,30 @@ const ScientificAnalysis = () => {
                                             loading="lazy"
                                         />
                                     </div>
-                                    <div className="space-y-4">
-                                        <h3 className="text-xl font-semibold flex items-center gap-2">
+                                    <div className="bg-muted/20 rounded-2xl p-6 border border-border/50">
+                                        <h3 className="text-xl font-semibold flex items-center gap-2 mb-5">
                                             <BarChart3 className="w-5 h-5 text-primary" />
                                             Variables Más Importantes
                                         </h3>
-                                        <ul className="space-y-3">
+                                        <ul className="space-y-4">
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">1.</span>
+                                                <span className="text-primary font-bold text-lg">1.</span>
                                                 <span><strong>Grado histológico</strong>: Mayor impacto en predicción de riesgo</span>
                                             </li>
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">2.</span>
+                                                <span className="text-primary font-bold text-lg">2.</span>
                                                 <span><strong>Receptores de Progesterona</strong>: Negativos = mayor riesgo</span>
                                             </li>
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">3.</span>
+                                                <span className="text-primary font-bold text-lg">3.</span>
                                                 <span><strong>LVSI</strong>: Invasión linfovascular como factor clave</span>
                                             </li>
                                             <li className="flex gap-3 text-base">
-                                                <span className="text-primary font-bold">4.</span>
+                                                <span className="text-primary font-bold text-lg">4.</span>
                                                 <span><strong>Estadio FIGO</strong>: Correlación directa con recurrencia</span>
                                             </li>
                                             <li className="flex gap-3 text-base text-muted-foreground">
-                                                <span className="font-bold">→</span>
+                                                <span className="font-bold text-lg">→</span>
                                                 <span>Consistente con guías ESGO-ESTRO-ESP 2021-2025</span>
                                             </li>
                                         </ul>
@@ -810,11 +825,27 @@ const ScientificAnalysis = () => {
                                     <h2 className="text-2xl font-bold">Referencias Bibliográficas</h2>
                                 </div>
 
-                                <div className="space-y-4">
+                                <div className="space-y-6">
                                     {references.map((ref, idx) => (
-                                        <div key={idx} className="p-4 rounded-xl bg-muted/20 border border-border/50 hover:border-primary/30 transition-colors">
-                                            <div className="font-medium text-foreground mb-1">{ref.title}</div>
-                                            <div className="text-sm text-muted-foreground">{ref.authors} • {ref.journal}</div>
+                                        <div key={idx} className="p-6 rounded-2xl bg-muted/20 border border-border/50 hover:border-primary/30 transition-colors">
+                                            <div className="flex items-start gap-4">
+                                                <div className="shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                                    {idx + 1}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="font-semibold text-foreground text-lg mb-1">{ref.title}</div>
+                                                    <div className="text-sm text-muted-foreground mb-4">{ref.authors} • {ref.journal}</div>
+                                                    <div className="text-xs font-medium text-primary uppercase tracking-wide mb-2">Inspiración para la solución</div>
+                                                    <ul className="space-y-2">
+                                                        {ref.inspiration.map((item, i) => (
+                                                            <li key={i} className="flex gap-3 text-base">
+                                                                <span className="text-primary font-bold text-lg">•</span>
+                                                                <span>{item}</span>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>

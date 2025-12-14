@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Calculator, User, Microscope, Dna, HelpCircle } from "lucide-react";
+import { Calculator, User, Microscope, Dna, HelpCircle, AlertCircle } from "lucide-react";
 
 export interface FormData {
   edad: number;
@@ -50,16 +50,82 @@ const RiskForm = ({ onSubmit, isLoading, data }: RiskFormProps) => {
     receptoresProgesterona: 70,
   });
 
-  // Update form when external data provided (e.g. from examples)
+  // Local state for text inputs to handle intermediate invalid states
+  const [inputValues, setInputValues] = useState({
+    edad: "60",
+    imc: "28",
+    tamanoTumoral: "3"
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Update form and local inputs when external data provided (e.g. from examples)
   useEffect(() => {
     if (data) {
       setFormData(data);
+      setInputValues({
+        edad: data.edad.toString(),
+        imc: data.imc.toString(),
+        tamanoTumoral: data.tamanoTumoral.toString()
+      });
+      setErrors({});
     }
   }, [data]);
 
+  const validateNumber = (value: string, field: string): boolean => {
+    if (!value.trim()) {
+      setErrors(prev => ({ ...prev, [field]: "Este campo es requerido" }));
+      return false;
+    }
+
+    // Check if it's a valid number format
+    if (!/^\d*\.?\d*$/.test(value) || isNaN(parseFloat(value))) {
+      setErrors(prev => ({ ...prev, [field]: "Debe ser un número válido" }));
+      return false;
+    }
+
+    const num = parseFloat(value);
+
+    // Specific range validations
+    if (field === "edad" && (num < 18 || num > 100)) {
+      setErrors(prev => ({ ...prev, [field]: "La edad debe estar entre 18 y 100" }));
+      return false;
+    }
+    if (field === "imc" && (num < 15 || num > 60)) {
+      setErrors(prev => ({ ...prev, [field]: "El IMC debe estar entre 15 y 60" }));
+      return false;
+    }
+    if (field === "tamanoTumoral" && (num < 0 || num > 20)) {
+      setErrors(prev => ({ ...prev, [field]: "El tamaño debe estar entre 0 y 20 cm" }));
+      return false;
+    }
+
+    // Clear error if valid
+    const newErrors = { ...errors };
+    delete newErrors[field];
+    setErrors(newErrors);
+    return true;
+  };
+
+  const handleTextChange = (field: "edad" | "imc" | "tamanoTumoral", value: string) => {
+    setInputValues(prev => ({ ...prev, [field]: value }));
+    const isValid = validateNumber(value, field);
+    if (isValid) {
+      updateField(field, parseFloat(value));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    // Validate all text fields before submit
+    const edadValid = validateNumber(inputValues.edad, "edad");
+    const imcValid = validateNumber(inputValues.imc, "imc");
+    const tamanoValid = validateNumber(inputValues.tamanoTumoral, "tamanoTumoral");
+
+    if (edadValid && imcValid && tamanoValid && Object.keys(errors).length === 0) {
+      onSubmit(formData);
+    }
   };
 
   const updateField = <K extends keyof FormData>(field: K, value: FormData[K]) => {
@@ -77,27 +143,40 @@ const RiskForm = ({ onSubmit, isLoading, data }: RiskFormProps) => {
           </div>
           <div className="grid sm:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="edad">Edad (años)</Label>
+              <Label htmlFor="edad" className={errors.edad ? "text-red-500" : ""}>Edad (años)</Label>
               <Input
                 id="edad"
-                type="number"
-                min={18}
-                max={100}
-                value={formData.edad}
-                onChange={(e) => updateField("edad", parseInt(e.target.value) || 0)}
+                type="text"
+                inputMode="numeric"
+                value={inputValues.edad}
+                onChange={(e) => handleTextChange("edad", e.target.value)}
+                className={errors.edad ? "border-red-500 focus-visible:ring-red-500" : ""}
+                placeholder="Ej: 60"
               />
+              {errors.edad && (
+                <div className="flex items-center gap-1 text-xs text-red-500 animate-in slide-in-from-top-1">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>{errors.edad}</span>
+                </div>
+              )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="imc">IMC (kg/m²)</Label>
+              <Label htmlFor="imc" className={errors.imc ? "text-red-500" : ""}>IMC (kg/m²)</Label>
               <Input
                 id="imc"
-                type="number"
-                min={15}
-                max={60}
-                step={0.1}
-                value={formData.imc}
-                onChange={(e) => updateField("imc", parseFloat(e.target.value) || 0)}
+                type="text"
+                inputMode="decimal"
+                value={inputValues.imc}
+                onChange={(e) => handleTextChange("imc", e.target.value)}
+                className={errors.imc ? "border-red-500 focus-visible:ring-red-500" : ""}
+                placeholder="Ej: 28.5"
               />
+              {errors.imc && (
+                <div className="flex items-center gap-1 text-xs text-red-500 animate-in slide-in-from-top-1">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>{errors.imc}</span>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -125,16 +204,22 @@ const RiskForm = ({ onSubmit, isLoading, data }: RiskFormProps) => {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="tamano">Tamaño Tumoral (cm)</Label>
+              <Label htmlFor="tamano" className={errors.tamanoTumoral ? "text-red-500" : ""}>Tamaño Tumoral (cm)</Label>
               <Input
                 id="tamano"
-                type="number"
-                min={0}
-                max={20}
-                step={0.1}
-                value={formData.tamanoTumoral}
-                onChange={(e) => updateField("tamanoTumoral", parseFloat(e.target.value) || 0)}
+                type="text"
+                inputMode="decimal"
+                value={inputValues.tamanoTumoral}
+                onChange={(e) => handleTextChange("tamanoTumoral", e.target.value)}
+                className={errors.tamanoTumoral ? "border-red-500 focus-visible:ring-red-500" : ""}
+                placeholder="Ej: 3.5"
               />
+              {errors.tamanoTumoral && (
+                <div className="flex items-center gap-1 text-xs text-red-500 animate-in slide-in-from-top-1">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>{errors.tamanoTumoral}</span>
+                </div>
+              )}
             </div>
             <div className="space-y-2">
               <Label>Infiltración Miometrial</Label>
@@ -285,7 +370,7 @@ const RiskForm = ({ onSubmit, isLoading, data }: RiskFormProps) => {
           </div>
         </section>
 
-        <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+        <Button type="submit" size="lg" className="w-full" disabled={isLoading || Object.keys(errors).length > 0}>
           <Calculator className="w-5 h-5 mr-2" />
           {isLoading ? "Calculando..." : "Calcular Riesgo"}
         </Button>
