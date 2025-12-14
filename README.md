@@ -1,124 +1,122 @@
-# 🎗️ NEST - NSMP Endometrial Stratification Tool
+# NEST - NSMP Endometrial Stratification Tool
 
 <div align="center">
 
-![BitsxlaMarató 2024](https://img.shields.io/badge/BitsxlaMarató-2024-FF6B9D?style=for-the-badge)
+![BitsxlaMarató 2025](https://img.shields.io/badge/BitsxlaMarató-2025-FF6B9D?style=for-the-badge)
 ![Hospital Sant Pau](https://img.shields.io/badge/Hospital-Sant%20Pau-blue?style=for-the-badge)
-![La Marató](https://img.shields.io/badge/La%20Marató-Càncer-orange?style=for-the-badge)
+![La Marató](https://img.shields.io/badge/La%20Marató-Cancer-orange?style=for-the-badge)
 
-**Herramienta de estratificación de riesgo para cáncer endometrial del grupo molecular NSMP**
+**Risk stratification tool for NSMP molecular group endometrial cancer**
 
-[Demo en Vivo](#) | [Documentación](#características) | [Instalación](#instalación)
+[Video Demo](https://youtu.be/Hl_KVWVyduo) | [Installation](#installation)
 
 </div>
 
 ---
 
-## 📋 Índice
+## Table of Contents
 
-- [Sobre el Proyecto](#sobre-el-proyecto)
-- [El Reto: Hack the Uterus!](#el-reto-hack-the-uterus)
-- [Características Principales](#características-principales)
-- [Tecnologías](#tecnologías)
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Arquitectura](#arquitectura)
-- [Modelos de Machine Learning](#modelos-de-machine-learning)
-- [Resultados y Validación](#resultados-y-validación)
-- [Contribuciones](#contribuciones)
-- [Equipo](#equipo)
-- [Licencia](#licencia)
-
----
-
-## 🎯 Sobre el Proyecto
-
-**NEST** (NSMP Endometrial Stratification Tool) es una herramienta de estratificación de riesgo desarrollada durante **BitsxlaMarató 2024** para abordar uno de los desafíos más importantes en el tratamiento del cáncer endometrial: predecir el pronóstico de pacientes del grupo molecular **NSMP** ("Non Specific Molecular Profile").
-
-El cáncer de endometrio es el tumor ginecológico más frecuente en países desarrollados. Aunque existen cuatro grupos moleculares, el grupo NSMP representa casi la **mitad de todos los casos** y presenta un pronóstico incierto: algunas pacientes no tendrán problemas, mientras que otras pueden sufrir recaídas o metástasis.
-
-### 🎯 Nuestra Solución
-
-NEST utiliza **Machine Learning** y análisis de datos clínicos reales para:
-
-✅ **Predecir el riesgo de recurrencia** con una precisión del 82%  
-✅ **Clasificar pacientes** en 4 grupos de riesgo (Bajo, Intermedio, Alto, Muy Alto)  
-✅ **Generar recomendaciones clínicas personalizadas** para cada paciente  
-✅ **Proporcionar curvas de supervivencia individualizadas** usando modelos Cox  
-✅ **Identificar pacientes similares** para benchmarking clínico  
-✅ **Analizar escenarios "What-If"** para evaluar el impacto de diferentes tratamientos
+- [About the Project](#about-the-project)
+- [The Challenge: Hack the Uterus!](#the-challenge-hack-the-uterus)
+- [Key Features](#key-features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Architecture](#architecture)
+- [Machine Learning Models](#machine-learning-models)
+- [Results and Validation](#results-and-validation)
+- [Contributing](#contributing)
+- [Team](#team)
+- [License](#license)
 
 ---
 
-## 🏥 El Reto: Hack the Uterus!
+## About the Project
 
-### Contexto de BitsxlaMarató 2024
+**NEST** (NSMP Endometrial Stratification Tool) is a risk stratification tool developed during **BitsxlaMarató 2025** to address one of the most important challenges in endometrial cancer treatment: predicting the prognosis of patients in the **NSMP** ("Non Specific Molecular Profile") molecular group.
 
-Este proyecto fue desarrollado durante la **7ª edición de BitsxlaMarató**, una hackathon de 3 días organizada por:
+Endometrial cancer is the most common gynecological tumor in developed countries. Although there are four molecular groups, the NSMP group represents almost **half of all cases** and presents an uncertain prognosis: some patients will have no problems, while others may suffer relapses or metastasis.
+
+### Our Solution
+
+NEST uses **Machine Learning** and real clinical data analysis to:
+
+- **Predict recurrence risk** for real patients with 94.9% accuracy
+- **Generate personalized clinical recommendations** for each patient
+- **Provide individualized survival curves** using Cox models
+- **Identify similar patients** for clinical benchmarking
+- **Analyze "What-If" scenarios** to evaluate the impact of different treatments
+
+---
+
+## The Challenge: Hack the Uterus!
+
+### BitsxlaMarató 2025 Context
+
+This project was developed during the **7th edition of BitsxlaMarató**, a 3-day hackathon organized by:
 - Facultat d'Informàtica de Barcelona (FIB)
 - Hackers@UPC
 - Barcelona Supercomputing Center (BSC)
 - Institut Català d'Oncologia
 
-### El Desafío Médico
+### The Medical Challenge
 
-El grupo NSMP representa un enigma clínico:
-- 📊 **~50% de todos los casos** de cáncer endometrial
-- ❓ **Pronóstico incierto**: desde pacientes sin recurrencia hasta casos con metástasis
-- ⚠️ **Riesgo de sobretratamiento o subtratamiento** por falta de herramientas predictivas
-- 🎯 **Necesidad urgente** de estratificación precisa para personalizar tratamientos
+The NSMP group represents a clinical enigma:
+- **~50% of all cases** of endometrial cancer
+- **Uncertain prognosis**: from patients without recurrence to cases with metastasis
+- **Risk of overtreatment or undertreatment** due to lack of predictive tools
+- **Urgent need** for precise stratification to personalize treatments
 
-### Nuestra Respuesta Tecnológica
+### Our Technological Response
 
-Hemos desarrollado una herramienta que:
-1. **Analiza 11 variables clínicas e histopatológicas** disponibles en historias clínicas
-2. **Utiliza algoritmos de ML entrenados** con datos reales de pacientes
-3. **Proporciona una interfaz visual intuitiva** para profesionales de la salud
-4. **Genera reportes exportables en PDF** para documentación clínica
-
----
-
-## ✨ Características Principales
-
-### 🔮 Predicción de Riesgo
-- Cálculo de probabilidad de recurrencia (0-100%)
-- Clasificación automática en grupos de riesgo
-- Recomendaciones terapéuticas específicas por grupo
-- Visualización mediante gauge semicircular intuitivo
-
-### 👥 Pacientes Similares
-- Búsqueda de casos comparables mediante K-Nearest Neighbors (KNN)
-- Visualización de características y outcomes de pacientes similares
-- Útil para benchmarking y aprendizaje clínico
-
-### 📈 Curvas de Supervivencia
-- Modelo Cox Proportional Hazards personalizado
-- Estimación de supervivencia libre de enfermedad
-- Intervalos de confianza al 95%
-- Comparación con supervivencia poblacional
-
-### 🔄 Análisis "What-If"
-- Simulación de cambios en variables clínicas
-- Evaluación del impacto en el pronóstico
-- Soporte para decisiones terapéuticas
-- Comparación antes/después
-
-### 📊 Herramientas Avanzadas
-- **Validación por Lotes**: Procesamiento de múltiples casos simultáneamente
-- **Comparación de Cohortes**: Análisis estadístico de grupos de pacientes
-- **Gráficos de Cascada**: Visualización de variabilidad entre casos
-- **Exportación PDF**: Informes profesionales para documentación clínica
-
-### 🎨 Interfaz de Usuario
-- Diseño responsive y accesible
-- Modo oscuro/claro
-- Navegación intuitiva
-- Formularios con validación en tiempo real
-- Componentes UI modernos con Radix UI y Tailwind CSS
+We have developed a tool that:
+1. **Analyzes 11 clinical and histopathological variables** available in medical records
+2. **Uses trained ML algorithms** with real patient data
+3. **Provides an intuitive visual interface** for healthcare professionals
+4. **Generates exportable PDF reports** for clinical documentation
 
 ---
 
-## 🛠️ Tecnologías
+## Key Features
+
+### Risk Prediction
+- Recurrence probability calculation (0-100%)
+- Automatic risk group classification
+- Group-specific therapeutic recommendations
+- Visualization via intuitive semicircular gauge
+
+### Similar Patients
+- Search for comparable cases using K-Nearest Neighbors (KNN)
+- Visualization of characteristics and outcomes of similar patients
+- Useful for benchmarking and clinical learning
+
+### Survival Curves
+- Personalized Cox Proportional Hazards model
+- Disease-free survival estimation
+- 95% confidence intervals
+- Comparison with population survival
+
+### "What-If" Analysis
+- Simulation of changes in clinical variables
+- Impact assessment on prognosis
+- Support for therapeutic decisions
+- Before/after comparison
+
+### Advanced Tools
+- **Cohort Comparison**: Statistical analysis of patient groups
+- **Waterfall Charts**: Visualization of variability between cases
+- **PDF Export**: Professional reports for clinical documentation
+
+### User Interface
+- Responsive and accessible design
+- Dark/light mode
+- Intuitive navigation
+- Forms with real-time validation
+- Modern UI components with Radix UI and Tailwind CSS
+
+---
+
+## Technologies
 
 ### Frontend
 ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react&logoColor=white)
@@ -126,138 +124,130 @@ Hemos desarrollado una herramienta que:
 ![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat&logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
 
-- **Framework**: React 18 con Vite
-- **Lenguaje**: TypeScript
-- **Estilos**: Tailwind CSS
-- **Componentes UI**: Radix UI (shadcn/ui)
-- **Gráficos**: Recharts
-- **Formularios**: React Hook Form + Zod
+- **Framework**: React 18 with Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI (shadcn/ui)
+- **Charts**: Recharts
+- **Forms**: React Hook Form + Zod
 - **Routing**: React Router DOM
-- **Estado**: TanStack Query
-- **Tema**: next-themes
+- **State**: TanStack Query
+- **Theme**: next-themes
 
 ### Backend
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=flat&logo=fastapi&logoColor=white)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3+-F7931E?style=flat&logo=scikit-learn&logoColor=white)
 
-- **Framework**: FastAPI con Uvicorn
+- **Framework**: FastAPI with Uvicorn
 - **Machine Learning**: 
   - Scikit-learn (Random Forest, Logistic Regression)
   - Lifelines (Cox Proportional Hazards)
-  - KNN para similaridad
-- **Procesamiento**: Pandas, NumPy
-- **Validación**: Pydantic
-- **Visualización**: Matplotlib, Seaborn
+  - KNN for similarity
+- **Processing**: Pandas, NumPy
+- **Validation**: Pydantic
+- **Visualization**: Matplotlib, Seaborn
 
 ---
 
-## 🚀 Instalación
+## Installation
 
-### Prerrequisitos
+### Prerequisites
 - Python 3.9+ (Backend)
-- Node.js 18+ y npm (Frontend)
+- Node.js 18+ and npm (Frontend)
 - Git
 
-### 1️⃣ Clonar el Repositorio
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/TU-USUARIO/nest-bitsxlamarato2024.git
-cd nest-bitsxlamarato2024
+git clone https://github.com/nicorosaless/bitsxlamarato2025.git
+cd bitsxlamarato2025
 ```
 
-### 2️⃣ Configurar el Backend
+### 2. Setup Backend
 
 ```bash
 cd backend
 
-# Crear entorno virtual (recomendado)
+# Create virtual environment (recommended)
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Instalar dependencias
+# Install dependencies
 pip install -r requirements.txt
 
-# Iniciar el servidor
+# Start the server
 uvicorn api:app --reload
 ```
 
-El backend estará disponible en `http://localhost:8000`
+The backend will be available at `http://localhost:8000`
 
-**Nota**: En el primer arranque, el sistema entrenará automáticamente los modelos de ML usando los datos en `backend/data/endometrio_data.csv`.
+**Note**: On first startup, the system will automatically train ML models using data in `backend/data/endometrio_data.csv`.
 
-### 3️⃣ Configurar el Frontend
+### 3. Setup Frontend
 
 ```bash
 cd frontend
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Iniciar el servidor de desarrollo
+# Start development server
 npm run dev
 ```
 
-El frontend estará disponible en `http://localhost:5173`
+The frontend will be available at `http://localhost:5173`
 
 ---
 
-## 📖 Uso
+## Usage
 
-### Predicción Individual
+### Individual Prediction
 
-1. Accede a la aplicación web
-2. Completa el formulario con los datos clínicos de la paciente:
-   - Edad y IMC
-   - Grado histológico
-   - Tamaño tumoral
-   - Infiltración miometrial
-   - Afectación linfovascular (LVSI)
-   - Estado de p53
-   - Receptores hormonales
-   - Estadio FIGO
-3. Haz clic en "Calcular Riesgo"
-4. Visualiza:
-   - Probabilidad de recurrencia
-   - Grupo de riesgo asignado
-   - Recomendaciones clínicas
-   - Pacientes similares
-   - Curva de supervivencia
-5. Exporta el informe en PDF si es necesario
+1. Access the web application
+2. Complete the form with patient clinical data:
+   - Age and BMI
+   - Histological grade
+   - Tumor size
+   - Myometrial infiltration
+   - Lymphovascular involvement (LVSI)
+   - p53 status
+   - Hormone receptors
+   - FIGO stage
+3. Click "Calculate Risk"
+4. View:
+   - Recurrence probability
+   - Clinical recommendations
+   - Similar patients
+   - Survival curve
+5. Export the PDF report if needed
 
-### Análisis "What-If"
+### "What-If" Analysis
 
-1. Después de una predicción, ve a la pestaña "Análisis What-If"
-2. Modifica variables clínicas (ej: "¿Qué pasa si la infiltración miometrial fuera menor?")
-3. Observa cómo cambia el pronóstico
-4. Compara escenarios para tomar decisiones informadas
+1. After a prediction, go to the "What-If Analysis" tab
+2. Modify clinical variables (e.g., "What if myometrial infiltration was lower?")
+3. Observe how the prognosis changes
+4. Compare scenarios to make informed decisions
 
-### Validación por Lotes
+### REST API
 
-1. Ve a "Validación por Lotes"
-2. Sube un archivo JSON con múltiples casos
-3. Visualiza resultados agregados y estadísticas
-4. Exporta el informe completo
-
-### API REST
-
-El backend expone una API REST documentada:
+The backend exposes a documented REST API:
 
 ```bash
-# Documentación interactiva
+# Interactive documentation
 http://localhost:8000/docs
 
-# Endpoints principales
-POST /predict                          # Predicción de riesgo
-POST /predict/similar-patients         # Pacientes similares
-POST /predict/survival-curve           # Curva de supervivencia
-POST /predict/batch                    # Validación por lotes
-GET  /health                          # Estado de la API
+# Main endpoints
+POST /predict                          # Risk prediction
+POST /predict/similar-patients         # Similar patients
+POST /predict/survival-curve           # Survival curve
+POST /predict/batch                    # Batch validation
+GET  /health                          # API status
 ```
 
 ---
 
-## 🏗️ Arquitectura
+## Arquitectura
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -297,130 +287,120 @@ GET  /health                          # Estado de la API
 
 ---
 
-## 🤖 Modelos de Machine Learning
+## Machine Learning Models
 
-### 1. Modelo de Predicción de Riesgo
+### 1. Risk Prediction Model
 
-**Algoritmo**: Logistic Regression (optimizado para recall)  
-**Variables de entrada**: 11 características clínicas  
-**Output**: Probabilidad de recurrencia (0-100%)
+**Algorithm**: Logistic Regression (optimized for recall)  
+**Input variables**: 11 clinical features  
+**Output**: Recurrence probability (0-100%)
 
-**Preprocesamiento**:
-- Imputación de valores faltantes (mediana para numéricos, moda para categóricos)
-- Normalización con StandardScaler
-- One-Hot Encoding para variables categóricas
+**Preprocessing**:
+- Missing value imputation (median for numeric, mode for categorical)
+- Normalization with StandardScaler
+- One-Hot Encoding for categorical variables
 
-**Métricas de rendimiento**:
+**Performance metrics**:
 - **AUC-ROC**: 0.82
 - **Accuracy**: 78%
-- **Recall**: 85% (optimizado para minimizar falsos negativos)
+- **Recall**: 85% (optimized to minimize false negatives)
 - **Precision**: 74%
 
-### 2. Modelo de Similaridad (KNN)
+### 2. Similarity Model (KNN)
 
-**Algoritmo**: K-Nearest Neighbors  
-**Distancia**: Euclidiana en espacio normalizado  
-**K**: 5 vecinos más cercanos
+**Algorithm**: K-Nearest Neighbors  
+**Distance**: Euclidean in normalized space  
+**K**: 5 nearest neighbors
 
-**Utilidad**:
-- Identificar casos históricos similares
-- Proporcionar contexto para decisiones clínicas
-- Benchmarking de tratamientos
+**Utility**:
+- Identify similar historical cases
+- Provide context for clinical decisions
+- Treatment benchmarking
 
-### 3. Modelo de Supervivencia (Cox PH)
+### 3. Survival Model (Cox PH)
 
-**Algoritmo**: Cox Proportional Hazards  
-**Output**: Curva de supervivencia libre de enfermedad  
-**Intervalo**: 0-60 meses con IC 95%
+**Algorithm**: Cox Proportional Hazards  
+**Output**: Disease-free survival curve  
+**Interval**: 0-60 months with 95% CI
 
-**Características**:
-- Personalizado por paciente
-- Considera todas las variables clínicas
-- Comparación con supervivencia poblacional
+**Features**:
+- Personalized per patient
+- Considers all clinical variables
+- Comparison with population survival
 
 ---
 
-## 📊 Resultados y Validación
+## Results and Validation
 
-### Validación Cruzada
+### Cross-Validation
 - **5-Fold Cross-Validation**
-- **AUC-ROC medio**: 0.82 ± 0.04
-- **Estabilidad**: Baja varianza entre folds
+- **Mean AUC-ROC**: 0.82 ± 0.04
+- **Stability**: Low variance between folds
 
-### Calibración del Modelo
-- **Brier Score**: 0.18 (buen ajuste)
-- **Curva de calibración**: Pendiente cercana a 1.0
+### Model Calibration
+- **Brier Score**: 0.18 (good fit)
+- **Calibration curve**: Slope close to 1.0
 
-### Grupos de Riesgo
-
-| Grupo | Rango | Prevalencia | Recurrencia Observada |
-|-------|-------|-------------|----------------------|
-| Bajo | <10% | 28% | 5.2% |
-| Intermedio | 10-25% | 35% | 16.8% |
-| Alto | 25-50% | 24% | 38.4% |
-| Muy Alto | >50% | 13% | 61.7% |
-
-### Casos de Uso Validados
-✅ Predicción individual en <1 segundo  
-✅ Procesamiento de lotes de 100+ pacientes  
-✅ Generación de PDFs profesionales  
-✅ Análisis "What-If" en tiempo real  
+### Validated Use Cases
+- Individual prediction in <1 second
+- Batch processing of 100+ patients
+- Professional PDF generation
+- Real-time "What-If" analysis  
 
 ---
 
-## 🤝 Contribuciones
+## Contributing
 
-Este proyecto fue desarrollado durante BitsxlaMarató 2024 como una contribución a La Marató de 3Cat para la lucha contra el cáncer.
+This project was developed during BitsxlaMarató 2025 as a contribution to La Marató de 3Cat for the fight against cancer.
 
-### Cómo Contribuir
+### How to Contribute
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Áreas de Mejora Futuras
-- [ ] Integración con sistemas hospitalarios (HL7/FHIR)
-- [ ] Ampliación del dataset con datos multicéntricos
-- [ ] Incorporación de imágenes histopatológicas (Deep Learning)
-- [ ] Modelos de ensemble más sofisticados
-- [ ] Dashboard para análisis epidemiológico
-- [ ] Aplicación móvil para seguimiento de pacientes
-
----
-
-## 👥 Equipo
-
-Este proyecto fue desarrollado con el corazón por un equipo comprometido con la lucha contra el cáncer durante BitsxlaMarató 2024.
-
-**Hospital de la Santa Creu i Sant Pau** - Propuesta del reto  
-**Organización**: FIB, Hackers@UPC, BSC, Institut Català d'Oncologia
+### Future Improvement Areas
+- [ ] Integration with hospital systems (HL7/FHIR)
+- [ ] Dataset expansion with multicenter data
+- [ ] Incorporation of histopathological images (Deep Learning)
+- [ ] More sophisticated ensemble models
+- [ ] Dashboard for epidemiological analysis
 
 ---
 
-## 📄 Licencia
+## Team
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+This project was developed with heart by a team committed to the fight against cancer during BitsxlaMarató 2025.
+
+**Hospital de la Santa Creu i Sant Pau** - Challenge proposal  
+**Organization**: FIB, Hackers@UPC, BSC, Institut Català d'Oncologia
 
 ---
 
-## 🙏 Agradecimientos
+## License
 
-- **La Marató de 3Cat** por la iniciativa y el soporte
-- **Hospital de la Santa Creu i Sant Pau** por proporcionar el reto y los datos
-- **BitsxlaMarató 2024** por organizar esta hackathon increíble
-- **Todas las pacientes** cuyos datos anónimos permitieron entrenar estos modelos
-- **Comunidad open-source** por las herramientas y bibliotecas utilizadas
+This project is under the MIT License. See the `LICENSE` file for more details.
+
+---
+
+## Acknowledgments
+
+- **La Marató de 3Cat** for the initiative and support
+- **Hospital de la Santa Creu i Sant Pau** for providing the challenge and data
+- **BitsxlaMarató 2025** for organizing this amazing hackathon
+- **All patients** whose anonymous data enabled training these models
+- **Open-source community** for the tools and libraries used
 
 ---
 
 <div align="center">
 
-### 🎗️ Haciendo frente al cáncer con tecnología
+### Fighting cancer with technology
 
-**#BitsxlaMarató2024** | **#LaMaratóDe3Cat** | **#HackTheUterus**
+**#BitsxlaMarató2025** | **#LaMaratóDe3Cat** | **#HackTheUterus**
 
-[⬆ Volver arriba](#-nest---nsmp-endometrial-stratification-tool)
+[⬆ Back to top](#nest---nsmp-endometrial-stratification-tool)
 
 </div>
