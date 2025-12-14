@@ -26,8 +26,8 @@ const Header = () => {
               <Link
                 to="/"
                 className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${!isScientific
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                   }`}
               >
                 Calculadora
@@ -35,8 +35,8 @@ const Header = () => {
               <Link
                 to="/scientific"
                 className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors flex items-center gap-1 ${isScientific
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                   }`}
               >
                 <FlaskConical className="w-4 h-4" />
@@ -50,7 +50,7 @@ const Header = () => {
                 Hospital Sant Pau
               </span>
               <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
-                BitsxlaMarató 2024
+                BitsxlaMarató 2025
               </span>
             </div>
 

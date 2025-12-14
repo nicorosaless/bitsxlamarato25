@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 interface RiskGaugeProps {
   percentage: number;
   riskLevel: "low" | "intermediate" | "high" | "very-high";
+  confidenceInterval?: [number, number];
 }
 
-const RiskGauge = ({ percentage, riskLevel }: RiskGaugeProps) => {
+const RiskGauge = ({ percentage, riskLevel, confidenceInterval }: RiskGaugeProps) => {
   const [animatedPercentage, setAnimatedPercentage] = useState(0);
 
   useEffect(() => {
@@ -19,6 +20,29 @@ const RiskGauge = ({ percentage, riskLevel }: RiskGaugeProps) => {
   const radius = 80;
   const circumference = Math.PI * radius;
   const strokeDashoffset = circumference - (animatedPercentage / 100) * circumference;
+
+  // CI Arc Calculation
+  const getCiPath = () => {
+    if (!confidenceInterval) return "";
+    const [low, high] = confidenceInterval;
+
+    // Convert percentage to radians (0% = PI, 100% = 0)
+    const startAngle = Math.PI - (low / 100) * Math.PI;
+    const endAngle = Math.PI - (high / 100) * Math.PI;
+
+    // Calculate start and end points
+    const x1 = 100 + radius * Math.cos(startAngle);
+    const y1 = 100 - radius * Math.sin(startAngle);
+    const x2 = 100 + radius * Math.cos(endAngle);
+    const y2 = 100 - radius * Math.sin(endAngle);
+
+    // SVG Path for arc
+    // A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+    // sweep-flag = 1 because we go clockwise from left (PI) to right (0) in SVG coords? 
+    // Wait, PI is left. 0 is right. We draw from low (left-ish) to high (right-ish).
+    // So angles decrease. cos(PI)=-1.
+    return `M ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2}`;
+  };
 
   const getRiskColor = () => {
     switch (riskLevel) {
@@ -57,6 +81,19 @@ const RiskGauge = ({ percentage, riskLevel }: RiskGaugeProps) => {
           strokeWidth="16"
           strokeLinecap="round"
         />
+
+        {/* Confidence Interval Shadow */}
+        {confidenceInterval && (
+          <path
+            d={getCiPath()}
+            fill="none"
+            stroke="currentColor"
+            className={`${getRiskColor().replace('stroke-', 'text-')} opacity-20`}
+            strokeWidth="24"
+            strokeLinecap="butt"
+          />
+        )}
+
         {/* Colored arc */}
         <path
           d="M 20 100 A 80 80 0 0 1 180 100"
@@ -92,12 +129,15 @@ const RiskGauge = ({ percentage, riskLevel }: RiskGaugeProps) => {
           );
         })}
       </svg>
-      <div className="absolute bottom-0 flex flex-col items-center">
-        <span className={`text-5xl font-bold tabular-nums ${getRiskTextColor()}`}>
+      <div className="absolute inset-x-0 bottom-8 flex flex-col items-center justify-center">
+        <span className={`text-5xl font-bold tabular-nums tracking-tight ${getRiskTextColor()}`}>
           {Math.round(animatedPercentage)}%
         </span>
-        <span className="text-sm text-muted-foreground mt-1">Probabilidad de recurrencia</span>
       </div>
+      {/* Label outside the relative container to avoid overlap */}
+      <span className="text-sm font-medium text-muted-foreground mt-2">
+        Probabilidad de recurrencia
+      </span>
     </div>
   );
 };

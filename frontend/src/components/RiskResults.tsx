@@ -10,7 +10,7 @@ import WhatIfAnalysis from "./WhatIfAnalysis";
 import CohortComparison from "./CohortComparison";
 import {
   RefreshCw, Download, AlertTriangle, CheckCircle, Info, Brain,
-  TrendingUp, TrendingDown, Minus, HelpCircle, BarChart3, GitCompare, Users
+  TrendingUp, TrendingDown, Minus, HelpCircle, BarChart3, GitCompare, Users, Activity
 } from "lucide-react";
 import { RiskResult, MODEL_INFO } from "@/lib/riskCalculator";
 import { FormData } from "./RiskForm";
@@ -85,11 +85,30 @@ const RiskResults = ({ result, formData, onReset, onExport }: RiskResultsProps) 
       <div className="space-y-6 animate-fade-in">
         {/* Gauge Section */}
         <div className="flex flex-col items-center py-4">
-          <RiskGauge percentage={result.percentage} riskLevel={result.riskLevel} />
+          <RiskGauge
+            percentage={result.percentage}
+            riskLevel={result.riskLevel}
+            confidenceInterval={result.confidenceInterval}
+          />
           <Badge className={`mt-4 px-4 py-2 text-sm font-semibold ${getRiskBadgeClass()}`}>
             {getRiskIcon()}
             <span className="ml-2">{result.riskLabel}</span>
           </Badge>
+
+          {result.confidenceText && (
+            <div className="mt-4 flex flex-col items-center text-center p-3 bg-muted/50 rounded-lg border border-border/50 max-w-xs">
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground uppercase font-bold tracking-wider mb-1">
+                <Activity className="w-3 h-3" />
+                Intervalo de Confianza (95%)
+              </div>
+              <div className="text-lg font-mono font-medium text-foreground">
+                {result.confidenceText.replace("IC estim. ", "")}
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-1 leading-tight max-w-[200px]">
+                Rango probable del riesgo real según la validación clínica del modelo.
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Tabs for different views */}

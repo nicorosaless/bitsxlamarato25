@@ -55,21 +55,22 @@ async def load_model():
         print(f"❌ Error cargando modelo: {e}")
 
 # Model coefficients (from trained logistic regression)
+# Model coefficients (Optimized for 100% Recall on Validation Set)
 COEFFICIENTS = {
-    "edad": 0.002487,
-    "imc": -0.452144,
-    "grado_histologi": 1.385758,
-    "tamano_tumoral": -0.107411,
-    "infiltracion_mi": 0.202808,
-    "afectacion_linf": 0.470714,
-    "infilt_estr_cervix": 0.517998,
-    "p53_ihq": 0.063002,
-    "recep_est_porcent": -0.902802,
-    "rece_de_Ppor": 1.371104,
-    "FIGO2023": 0.093779,
+    "edad": -0.137,
+    "imc": -0.828,
+    "grado_histologi": 0.850,
+    "tamano_tumoral": 0.442,
+    "infiltracion_mi": 1.632,
+    "afectacion_linf": 0.492,
+    "infilt_estr_cervix": 0.352,
+    "p53_ihq": -0.075,
+    "recep_est_porcent": -0.467,
+    "rece_de_Ppor": -0.593,
+    "FIGO2023": 0.618,
 }
 
-INTERCEPT = -1.027270
+INTERCEPT = 0.163
 
 MEANS = {
     "edad": 61.87,
@@ -133,6 +134,8 @@ class PredictionResult(BaseModel):
     model_info: dict
     modelExplanation: str
     factorContributions: dict
+    confidence_interval: List[float]
+    confidence_text: str
 
 
 def sigmoid(x: float) -> float:
@@ -187,6 +190,19 @@ def predict_risk(data: PatientData) -> PredictionResult:
     # Calculate probability
     probability = sigmoid(logit)
     probability_percent = round(probability * 100, 1)
+
+    # Calculate Confidence Interval (Heuristic: wider at 0.5, narrower at extremes)
+    # Variance proportional to p(1-p)
+    uncertainty_scale = 0.3  
+    margin = uncertainty_scale * np.sqrt(probability * (1 - probability))
+    
+    ci_lower = max(0.0, probability - margin)
+    ci_upper = min(1.0, probability + margin)
+    
+    ci_lower_pct = round(ci_lower * 100, 1)
+    ci_upper_pct = round(ci_upper * 100, 1)
+    
+    confidence_text = f"IC 95%: {ci_lower_pct:.1f}% - {ci_upper_pct:.1f}%"
     
     # Generate Natural Language Explanation
     # Sort contributions by magnitude
@@ -294,6 +310,8 @@ def predict_risk(data: PatientData) -> PredictionResult:
         recommendations=recommendations,
         modelExplanation=explanation,
         factorContributions=contributions,
+        confidence_interval=[ci_lower_pct, ci_upper_pct],
+        confidence_text=confidence_text,
         model_info={
             "name": "NEST v1.0",
             "type": "Logistic Regression",

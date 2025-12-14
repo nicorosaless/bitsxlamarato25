@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,9 +31,10 @@ export interface FormData {
 interface RiskFormProps {
   onSubmit: (data: FormData) => void;
   isLoading?: boolean;
+  data?: FormData | null;
 }
 
-const RiskForm = ({ onSubmit, isLoading }: RiskFormProps) => {
+const RiskForm = ({ onSubmit, isLoading, data }: RiskFormProps) => {
   const [formData, setFormData] = useState<FormData>({
     edad: 60,
     imc: 28,
@@ -48,6 +49,13 @@ const RiskForm = ({ onSubmit, isLoading }: RiskFormProps) => {
     receptoresEstrogenos: 80,
     receptoresProgesterona: 70,
   });
+
+  // Update form when external data provided (e.g. from examples)
+  useEffect(() => {
+    if (data) {
+      setFormData(data);
+    }
+  }, [data]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -113,88 +113,43 @@ const PatientExamples = ({ onSelectPatient }: PatientExamplesProps) => {
 
     return (
         <Card className="p-4 bg-muted/30 border-border">
-            <div className="flex items-center justify-between mb-4">
-                <h4 className="font-semibold text-foreground flex items-center gap-2">
-                    <User className="w-4 h-4 text-primary" />
-                    Casos Ejemplo (Pacientes Reales)
-                </h4>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowPredictions(!showPredictions)}
-                >
-                    {showPredictions ? "Ocultar predicciones" : "Ver predicciones"}
-                </Button>
-            </div>
+            <h4 className="font-semibold text-foreground flex items-center gap-2 mb-3 text-sm">
+                <User className="w-4 h-4 text-primary" />
+                Cargar Caso Ejemplo
+            </h4>
 
-            <div className="grid gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {predictions.map((patient) => (
                     <div
                         key={patient.id}
-                        className={`p-3 rounded-lg border cursor-pointer transition-all ${selectedId === patient.id
-                                ? 'border-primary bg-primary/5'
-                                : 'border-border hover:border-primary/50 hover:bg-accent/50'
+                        className={`p-3 rounded-lg border cursor-pointer transition-all flex flex-col justify-between hover:shadow-md ${selectedId === patient.id
+                            ? 'border-primary bg-primary/5 shadow-sm'
+                            : 'border-border bg-card hover:border-primary/50'
                             }`}
                         onClick={() => handleSelect(patient)}
                     >
-                        <div className="flex items-start justify-between gap-3">
-                            <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                    {patient.expectedRecurrence ? (
-                                        <UserX className="w-4 h-4 text-red-500" />
-                                    ) : (
-                                        <UserCheck className="w-4 h-4 text-green-500" />
-                                    )}
-                                    <span className="font-medium text-sm">{patient.name}</span>
-                                    <Badge variant={patient.expectedRecurrence ? "destructive" : "secondary"} className="text-xs">
-                                        {patient.expectedRecurrence ? "Recidiva" : "Sin recidiva"}
-                                    </Badge>
-                                </div>
-                                <p className="text-xs text-muted-foreground">{patient.description}</p>
+                        <div className="flex justify-between items-start mb-2">
+                            <span className="font-medium text-sm text-foreground">{patient.name}</span>
+                            <Badge variant={patient.expectedRecurrence ? "destructive" : "secondary"} className="text-[10px] h-5">
+                                {patient.expectedRecurrence ? "Recidiva" : "No Recidiva"}
+                            </Badge>
+                        </div>
 
-                                {showPredictions && (
-                                    <div className="mt-2 flex items-center gap-3 text-xs">
-                                        <span className={`font-medium ${patient.predictedLevel === 'low' ? 'text-green-600' :
-                                                patient.predictedLevel === 'intermediate' ? 'text-yellow-600' :
-                                                    'text-red-600'
-                                            }`}>
-                                            Predicción: {patient.predictedRisk.toFixed(1)}%
-                                        </span>
-                                        {patient.isCorrect ? (
-                                            <span className="flex items-center gap-1 text-green-600">
-                                                <CheckCircle className="w-3 h-3" /> Correcto
-                                            </span>
-                                        ) : (
-                                            <span className="flex items-center gap-1 text-red-600">
-                                                <XCircle className="w-3 h-3" /> Revisar
-                                            </span>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="text-right">
-                                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                        <Clock className="w-3 h-3" />
-                                        {patient.followUpMonths} meses
-                                    </div>
-                                </div>
-                                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                            </div>
+                        <p className="text-xs text-muted-foreground line-clamp-2 mb-2 flex-1">
+                            {patient.description}
+                        </p>
+
+                        <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-2 border-t border-border/50">
+                            <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" /> {patient.followUpMonths}m
+                            </span>
+                            <span className={`font-mono font-medium ${patient.predictedLevel === 'low' ? 'text-green-600' : 'text-red-500'}`}>
+                                Histórico: {patient.predictedRisk.toFixed(1)}%
+                            </span>
                         </div>
                     </div>
                 ))}
             </div>
-
-            {showPredictions && (
-                <div className="mt-4 p-3 bg-accent/50 rounded-lg">
-                    <p className="text-xs text-muted-foreground">
-                        <strong>Validación:</strong> El modelo predice correctamente{' '}
-                        {predictions.filter(p => p.isCorrect).length} de {predictions.length} casos.
-                        Los casos se consideran "correctos" si riesgo alto (&gt;25%) coincide con recidiva real.
-                    </p>
-                </div>
-            )}
         </Card>
     );
 };

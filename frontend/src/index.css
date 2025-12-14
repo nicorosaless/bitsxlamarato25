@@ -120,25 +120,31 @@
   .risk-low {
     @apply bg-[hsl(var(--risk-low))] text-white;
   }
+
   .risk-intermediate {
     @apply bg-[hsl(var(--risk-intermediate))] text-foreground;
   }
+
   .risk-high {
     @apply bg-[hsl(var(--risk-high))] text-white;
   }
+
   .risk-very-high {
     @apply bg-[hsl(var(--risk-very-high))] text-white;
   }
-  
+
   .text-risk-low {
     color: hsl(var(--risk-low));
   }
+
   .text-risk-intermediate {
     color: hsl(var(--risk-intermediate));
   }
+
   .text-risk-high {
     color: hsl(var(--risk-high));
   }
+
   .text-risk-very-high {
     color: hsl(var(--risk-very-high));
   }

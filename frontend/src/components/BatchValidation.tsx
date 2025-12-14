@@ -123,7 +123,7 @@ const BatchValidation = () => {
 
             {/* Control Bar */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                     <Button
                         variant={filter === "all" ? "default" : "outline"}
                         size="sm"
@@ -145,82 +145,168 @@ const BatchValidation = () => {
                     >
                         Recidivas ({metrics.tp + metrics.fn})
                     </Button>
+                    <Button
+                        variant={filter === "matrix" ? "secondary" : "outline"}
+                        size="sm"
+                        onClick={() => setFilter("matrix")}
+                    >
+                        <BarChart className="w-4 h-4 mr-1" />
+                        Matriz
+                    </Button>
                 </div>
-                <div className="relative w-full sm:w-64">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="search"
-                        placeholder="Buscar ID..."
-                        className="pl-9"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
+                {filter !== "matrix" && (
+                    <div className="relative w-full sm:w-64">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            type="search"
+                            placeholder="Buscar ID..."
+                            className="pl-9"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
+                )}
             </div>
 
+            {/* Confusion Matrix */}
+            {filter === "matrix" && (
+                <Card className="p-8">
+                    <h4 className="font-semibold mb-8 text-center text-lg">Matriz de Confusión</h4>
+                    <div className="flex justify-center">
+                        <div className="inline-block">
+                            {/* Header: Predicción label */}
+                            <div className="flex">
+                                <div className="w-28"></div>
+                                <div className="flex-1 text-center text-sm font-semibold text-muted-foreground mb-3 pb-2">
+                                    Predicción
+                                </div>
+                            </div>
+
+                            {/* Column headers */}
+                            <div className="flex mb-3">
+                                <div className="w-28"></div>
+                                <div className="w-32 text-center text-sm font-medium text-red-600">Alto Riesgo</div>
+                                <div className="w-32 text-center text-sm font-medium text-green-600 ml-3">Bajo Riesgo</div>
+                            </div>
+
+                            {/* Row: Recidiva */}
+                            <div className="flex items-center mb-3">
+                                <div className="w-28 text-right pr-4">
+                                    <span className="text-sm font-medium text-red-600">Recidiva</span>
+                                </div>
+                                <div className="w-32 h-28 bg-green-500/20 border-2 border-green-500 rounded-xl flex flex-col items-center justify-center">
+                                    <span className="text-4xl font-bold text-green-600">{metrics.tp}</span>
+                                    <span className="text-sm text-muted-foreground mt-1">TP</span>
+                                </div>
+                                <div className="w-32 h-28 bg-red-500/20 border-2 border-red-500 rounded-xl flex flex-col items-center justify-center ml-3">
+                                    <span className="text-4xl font-bold text-red-600">{metrics.fn}</span>
+                                    <span className="text-sm text-muted-foreground mt-1">FN</span>
+                                </div>
+                            </div>
+
+                            {/* Row: No Recidiva */}
+                            <div className="flex items-center">
+                                <div className="w-28 text-right pr-4">
+                                    <span className="text-sm font-medium text-green-600">No Recidiva</span>
+                                </div>
+                                <div className="w-32 h-28 bg-red-500/20 border-2 border-red-500 rounded-xl flex flex-col items-center justify-center">
+                                    <span className="text-4xl font-bold text-red-600">{metrics.fp}</span>
+                                    <span className="text-sm text-muted-foreground mt-1">FP</span>
+                                </div>
+                                <div className="w-32 h-28 bg-green-500/20 border-2 border-green-500 rounded-xl flex flex-col items-center justify-center ml-3">
+                                    <span className="text-4xl font-bold text-green-600">{metrics.tn}</span>
+                                    <span className="text-sm text-muted-foreground mt-1">TN</span>
+                                </div>
+                            </div>
+
+                            {/* Real label on the side */}
+                            <div className="flex mt-6">
+                                <div className="w-28 text-right pr-4">
+                                    <span className="text-sm font-semibold text-muted-foreground">Real ↑</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Legend */}
+                    <div className="mt-8 flex justify-center gap-8 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-green-500/20 border-2 border-green-500 rounded"></div>
+                            <span>Predicción correcta</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-red-500/20 border-2 border-red-500 rounded"></div>
+                            <span>Predicción incorrecta</span>
+                        </div>
+                    </div>
+                </Card>
+            )}
+
             {/* Results Table */}
-            <Card className="overflow-hidden">
-                <div className="overflow-x-auto">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[80px]">ID</TableHead>
-                                <TableHead>Outcome Real</TableHead>
-                                <TableHead>Predicción</TableHead>
-                                <TableHead>Riesgo Calc.</TableHead>
-                                <TableHead>Tipo</TableHead>
-                                <TableHead className="text-right">Seguimiento</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredResults.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell className="font-mono text-xs">#{row.id}</TableCell>
-                                    <TableCell>
-                                        {row.actualRecurrence ? (
-                                            <Badge variant="destructive">Recidiva</Badge>
-                                        ) : (
-                                            <Badge variant="secondary">No Recidiva</Badge>
-                                        )}
-                                    </TableCell>
-                                    <TableCell>
-                                        {row.predictedRecurrence ? (
-                                            <span className="text-red-600 font-medium">Alto Riesgo</span>
-                                        ) : (
-                                            <span className="text-green-600 font-medium">Bajo Riesgo</span>
-                                        )}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                                                <div
-                                                    className={`h-full ${row.predictedRisk > 50 ? 'bg-red-500' :
-                                                        row.predictedRisk > 25 ? 'bg-orange-500' : 'bg-green-500'
-                                                        }`}
-                                                    style={{ width: `${row.predictedRisk}%` }}
-                                                />
-                                            </div>
-                                            <span className="text-xs font-mono">{row.predictedRisk.toFixed(1)}%</span>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline" className={
-                                            row.type === "TP" || row.type === "TN"
-                                                ? "border-green-500 text-green-600"
-                                                : "border-red-500 text-red-600"
-                                        }>
-                                            {row.type}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell className="text-right text-muted-foreground text-xs">
-                                        {row.followUpMonths} m
-                                    </TableCell>
+            {filter !== "matrix" && (
+                <Card className="overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="w-[80px]">ID</TableHead>
+                                    <TableHead>Outcome Real</TableHead>
+                                    <TableHead>Predicción</TableHead>
+                                    <TableHead>Riesgo Calc.</TableHead>
+                                    <TableHead>Tipo</TableHead>
+                                    <TableHead className="text-right">Seguimiento</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            </Card>
+                            </TableHeader>
+                            <TableBody>
+                                {filteredResults.map((row) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell className="font-mono text-xs">#{row.id}</TableCell>
+                                        <TableCell>
+                                            {row.actualRecurrence ? (
+                                                <Badge variant="destructive">Recidiva</Badge>
+                                            ) : (
+                                                <Badge variant="secondary">No Recidiva</Badge>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {row.predictedRecurrence ? (
+                                                <span className="text-red-600 font-medium">Alto Riesgo</span>
+                                            ) : (
+                                                <span className="text-green-600 font-medium">Bajo Riesgo</span>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                                                    <div
+                                                        className={`h-full ${row.predictedRisk > 50 ? 'bg-red-500' :
+                                                            row.predictedRisk > 25 ? 'bg-orange-500' : 'bg-green-500'
+                                                            }`}
+                                                        style={{ width: `${row.predictedRisk}%` }}
+                                                    />
+                                                </div>
+                                                <span className="text-xs font-mono">{row.predictedRisk.toFixed(1)}%</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline" className={
+                                                row.type === "TP" || row.type === "TN"
+                                                    ? "border-green-500 text-green-600"
+                                                    : "border-red-500 text-red-600"
+                                            }>
+                                                {row.type}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right text-muted-foreground text-xs">
+                                            {row.followUpMonths} m
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </Card>
+            )}
 
             <div className="text-xs text-muted-foreground text-center">
                 * Validado con {metrics.total} pacientes del set de prueba (25% de la cohorte, 39 casos nunca vistos por el modelo).
