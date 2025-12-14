@@ -8,7 +8,7 @@
 
 **Risk stratification tool for NSMP molecular group endometrial cancer**
 
-[Live Demo](#) | [Documentation](#features) | [Installation](#installation)
+[Video Demo](https://youtu.be/Hl_KVWVyduo) | [Installation](#installation)
 
 </div>
 
