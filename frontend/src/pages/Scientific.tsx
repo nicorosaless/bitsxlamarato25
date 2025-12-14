@@ -765,6 +765,81 @@ const ScientificAnalysis = () => {
 
                             <hr className="border-border/30" />
 
+                            {/* Robustness Analysis (Overfitting Justification) */}
+                            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-8 border border-primary/20">
+                                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                                    <ShieldCheck className="w-6 h-6 text-primary" />
+                                    ¿Por qué estamos seguros de que NO hay Overfitting?
+                                </h3>
+
+                                <div className="grid md:grid-cols-3 gap-8">
+                                    <div className="space-y-3">
+                                        <div className="bg-background/50 w-10 h-10 rounded-lg flex items-center justify-center border border-border shadow-sm">
+                                            <span className="font-mono font-bold text-lg">1</span>
+                                        </div>
+                                        <h4 className="font-semibold text-lg">Prueba de Fuego</h4>
+                                        <ul className="space-y-2 text-sm text-muted-foreground">
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>AUC Test: <strong>0.96</strong></span>
+                                            </li>
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>AUC Cross-Validation: <strong>0.94</strong></span>
+                                            </li>
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>Diferencia &lt; 2% (Alta Estabilidad)</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <div className="bg-background/50 w-10 h-10 rounded-lg flex items-center justify-center border border-border shadow-sm">
+                                            <span className="font-mono font-bold text-lg">2</span>
+                                        </div>
+                                        <h4 className="font-semibold text-lg">Naturaleza del Modelo</h4>
+                                        <ul className="space-y-2 text-sm text-muted-foreground">
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>Algoritmo de <strong>baja varianza</strong></span>
+                                            </li>
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>Estructura lineal simple</span>
+                                            </li>
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>Incapaz de "memorizar" ruido complejo</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <div className="bg-background/50 w-10 h-10 rounded-lg flex items-center justify-center border border-border shadow-sm">
+                                            <span className="font-mono font-bold text-lg">3</span>
+                                        </div>
+                                        <h4 className="font-semibold text-lg">Regularización L2</h4>
+                                        <ul className="space-y-2 text-sm text-muted-foreground">
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>Penalización Ridge / ElasticNet</span>
+                                            </li>
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>Castiga coeficientes extremos</span>
+                                            </li>
+                                            <li className="flex gap-2">
+                                                <span className="text-primary font-bold">•</span>
+                                                <span>Fuerza el aprendizaje de patrones generales</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr className="border-border/30" />
+
                             {/* SECTION 6: MODELO DE SUPERVIVENCIA */}
                             <section
                                 id="survival"
